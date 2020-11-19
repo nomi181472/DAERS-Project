@@ -1,5 +1,6 @@
 import express, { Response, Request } from "express";
 import { body } from "express-validator";
+
 import jwt from "jsonwebtoken";
 import { validateRequest } from "./middlewares/validate-request";
 import { BadRequestError } from "./errors/bad-request-error";
@@ -60,10 +61,11 @@ router.post(
         id: createdUser.id,
         email: createdUser.email,
       },
-      "sdsdsdsdsdsd"
+      "noman"
     );
     // store it on session object
-    req.session = { jwt: userJWT };
+    res.cookie("jwt", userJWT);
+    //console.log(res.cookie);
     res.status(201).send({ createdUser });
   }
 );

@@ -1,5 +1,6 @@
 import express from "express";
 import "express-async-errors";
+import cors from "cors";
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
@@ -13,7 +14,7 @@ import { UnknownRouteError } from "./errors/unknown-Route-error";
 //import axios from "axios";
 
 const app = express();
-
+app.use(cors());
 app.use(json());
 app.set("trust proxy", true);
 app.use(cookieSession({ signed: false, secure: true }));

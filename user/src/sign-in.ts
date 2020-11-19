@@ -5,6 +5,7 @@ import { Password } from "./models/user-repo/password";
 import { UserSchema } from "./models/user-repo/user-repo";
 import { validateRequest } from "./middlewares/validate-request";
 import { BadRequestError } from "./errors/bad-request-error";
+import { currentUser } from "./middlewares/current-user";
 const router = express.Router();
 router.post(
   "/api-gateway/sign-in/user",
@@ -13,6 +14,7 @@ router.post(
     body("password").trim().notEmpty().withMessage("password must enter"),
   ],
   validateRequest,
+  currentUser,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -33,11 +35,14 @@ router.post(
         id: isUserExist.id,
         email: isUserExist.email,
       },
-      "sdsd"
+      "noman"
     );
     // store it on session object
-    console.log(userJWT);
-    req.session = { jwt: userJWT };
+    //console.log(userJWT);
+    //req.session = { jwtt: userJWT };
+    //console.log(req.session.jwtt);
+    res.cookie("jwt", userJWT);
+    //console.log(req.currentUser);
     res.status(200).send({ isUserExist });
   }
 );
