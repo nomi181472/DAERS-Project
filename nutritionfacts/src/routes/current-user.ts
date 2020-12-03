@@ -8,7 +8,7 @@ route.get(
   }
 );
 route.post(
-  "/api-gateway/current-user/nutritionfact/",
+  "/api-gateway/current-user/nutritionfact",
   async (req: Request, res: Response) => {
     const { nutritionCategory, nutritionName, water } = req.body;
 

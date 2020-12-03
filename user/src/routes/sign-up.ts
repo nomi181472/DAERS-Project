@@ -2,11 +2,12 @@ import express, { Response, Request } from "express";
 import { body } from "express-validator";
 
 import jwt from "jsonwebtoken";
-import { validateRequest } from "./middlewares/validate-request";
-import { BadRequestError } from "./errors/bad-request-error";
-import { UserSchema, UserAttrs } from "./models/user-repo/user-repo";
+import { validateRequest } from "../middlewares/validate-request";
+import { BadRequestError } from "../errors/bad-request-error";
+import { UserSchema, UserAttrs } from "../models/user-repo/user-repo";
 //import { BadRequestError } from "./errors/bad-request-error";
-import { User } from "./models/user";
+import { User } from "../models/user";
+
 //import { UserSchema } from "./models/u ser-repo/user-repo";
 const router = express.Router();
 router.post(
@@ -63,10 +64,14 @@ router.post(
       },
       "noman"
     );
+
     // store it on session object
-    res.cookie("jwt", userJWT);
-    //console.log(res.cookie);
-    res.status(201).send({ createdUser });
+    //res.cookie("jwt", userJWT, {});
+    req.session!.jwt = userJWT;
+    //console.log(res.);
+    //console.log(req.session!.jwt);
+    //console.log(req.headers);
+    res.status(201).send({ createdUser, userJWT });
   }
 );
 export { router as signUpRouter };

@@ -1,11 +1,11 @@
 import express, { Response, Request } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
-import { Password } from "./models/user-repo/password";
-import { UserSchema } from "./models/user-repo/user-repo";
-import { validateRequest } from "./middlewares/validate-request";
-import { BadRequestError } from "./errors/bad-request-error";
-import { currentUser } from "./middlewares/current-user";
+import { Password } from "../models/user-repo/password";
+import { UserSchema } from "../models/user-repo/user-repo";
+import { validateRequest } from "../middlewares/validate-request";
+import { BadRequestError } from "../errors/bad-request-error";
+import { currentUser } from "../middlewares/current-user";
 const router = express.Router();
 router.post(
   "/api-gateway/sign-in/user",
@@ -41,8 +41,9 @@ router.post(
     //console.log(userJWT);
     //req.session = { jwtt: userJWT };
     //console.log(req.session.jwtt);
-    res.cookie("jwt", userJWT);
+    //res.cookie("jwt", userJWT);
     //console.log(req.currentUser);
+    req.session!.jwt = userJWT;
     res.status(200).send({ isUserExist });
   }
 );
