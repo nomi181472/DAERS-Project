@@ -2,17 +2,17 @@ import mongoose from "mongoose";
 import { app } from "./app";
 const start = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/exercise", {
+    await mongoose.connect("mongodb://localhost:27017/schedulee", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("connected to exercise mongodb");
+    console.log("connected to schedulee mongodb");
   } catch (err) {
     console.log(err);
   }
-  app.listen(3020, () => {
-    console.log("exercise Listening on port 3020");
+  app.listen(3021, () => {
+    console.log("schedulee Listening on port 3021");
   });
 };
 start();

@@ -1,15 +1,14 @@
 import express, { Request, Response } from "express";
-import { exerciseModel } from "./models/exercise-repo/exercise-repo";
-
-const router = express.Router();
-router.get(
-  "/api-gateway/current-user/exercise/",
+import { exerciseModel } from "../models/exercise-repo/exercise-repo";
+const route = express.Router();
+route.get(
+  "/api-gateway/current-user/exercise",
   (req: Request, res: Response) => {
-    res.send({ message: "currentUserExercise" });
+    res.send({ message: "exercise" });
   }
 );
-router.post(
-  "/api-gateway/current-user/exercise/",
+route.post(
+  "/api-gateway/current-user/exercise",
   async (req: Request, res: Response) => {
     const {
       exerciseCategory,
@@ -34,9 +33,9 @@ router.post(
       joint,
     });
     await createdExercise.save();
-
+    //console.log(createdNutrition);
     res.status(201).send({ createdExercise });
   }
 );
 
-export { router as currentUserRouter };
+export { route as currentUserRouter };
