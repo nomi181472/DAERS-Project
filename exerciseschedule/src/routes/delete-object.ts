@@ -1,19 +1,17 @@
 import express, { Request, Response } from "express";
 import { UnknownRouteError } from "../errors/unknown-Route-error";
 import { exerciseScheduleModel } from "../models/exercise-schedule-repo/exercise-schedule-repo";
-import { UnAuthorizedError } from "../errors/unAuthorized-errors";
 import { requireAuth } from "../middlewares/require-auth";
+import { UnAuthorizedError } from "../errors/unAuthorized-errors";
 const router = express.Router();
-router.put(
+router.delete(
   "/api-gateway/current-user/schedulee/object/:id/:exerciseId",
   requireAuth,
   async (req: Request, res: Response) => {
     const schedule = await exerciseScheduleModel.findById(req.params.id);
-
     if (!schedule) {
       throw new UnknownRouteError("scheduleid not found");
     }
-
     if (req.currentUser!.id !== schedule!.userId) {
       throw new UnAuthorizedError("required authorization");
     }
@@ -31,7 +29,7 @@ router.put(
     }
 
     if (index === -1) {
-      throw new UnknownRouteError("not same day");
+      throw new UnknownRouteError("day does not exist");
     }
     if (index >= 0) {
       let index2: number = -1;
@@ -41,25 +39,20 @@ router.put(
           break;
         }
       }
-
+      const len = document[index].day.length;
+      console.log(document[index].day.length);
       if (index2 >= 0) {
-        //console.log("yes");
-        //console.log("before", document[index].day[index2]);
-        schedule.document[index].day[index2] = req.body.document[0].day[0];
-        //document[index].day[index2].sameExercise = req.body.document[0].day[0];
-        // console.log(req.body.document[0].day[0]);
-        // console.log(document[index].day[index2]);
+        schedule.document[index].day.splice(index2, 1);
+        if (len <= 1) {
+          schedule.document.splice(index, 1);
+        }
+      } else {
+        throw new UnknownRouteError("exerciseid is not same");
       }
-
-      //else {
-      //   document[index].day.push(req.body.document[0].day[0]);
-      //   console.log(document[index].day);
-      // }
-      // document[index].day.push(req.body.document[0].day[0]);
-      //console.log(document[index].day);
     }
     await schedule.save();
-    res.send(document[index].day);
+
+    res.sendStatus(200);
   }
 );
-export { router as updateObjectRouter };
+export { router as deleteObjectRouter };

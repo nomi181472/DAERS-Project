@@ -6,20 +6,23 @@ import {
 import { UnknownRouteError } from "../errors/unknown-Route-error";
 import { UnAuthorizedError } from "../errors/unAuthorized-errors";
 import { body } from "express-validator";
+import { requireAuth } from "../middlewares/require-auth";
 const router = express.Router();
 router.put(
   "/api-gateway/current-user/schedulee/:id",
-  async (req: Request, res: Response): Promise<void> => {
+  requireAuth,
+  async (req: Request, res: Response) => {
     const schedule = await exerciseScheduleModel.findById(req.params.id);
     if (!schedule) {
-      throw new UnknownRouteError("id not found");
+      throw new UnknownRouteError("scheduleid not found");
     }
-    // if (schedule.userId !== req.currentUser!.id) {
-    //   throw new UnAuthorizedError();
-    // }
+
+    if (req.currentUser!.id !== schedule!.userId) {
+      throw new UnAuthorizedError("required authorization");
+    }
 
     const dayR = req.body.document[0].sameDay;
-    console.log(dayR);
+    //console.log(dayR);
     const { document } = schedule;
     //console.log(document[0].day);
 
@@ -64,7 +67,7 @@ router.put(
 
     //console.log(document);
     await schedule.save();
-    res.send({ schedule });
+    res.sendStatus(200);
   }
 );
 export { router as updateRouter };

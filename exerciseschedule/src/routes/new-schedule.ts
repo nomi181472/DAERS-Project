@@ -8,13 +8,16 @@ router.post(
   "/api-gateway/current-user/exerciseschedule",
   /*requireAuth,*/
   // [body("document").not().isEmpty().withMessage("document is required")],
+  requireAuth,
   validateRequest,
   async (req: Request, res: Response) => {
-    const { userId, document } = req.body;
-    //const usId = req.currentUser!.id;
+    const { document } = req.body;
+    const userId = req.currentUser!.id;
+    //const schedule = exerciseScheduleModel.findById({ userId: userId });
+    //console.log(schedule);
     let result = await exerciseScheduleModel.build({ document, userId });
+    console.log(userId);
 
-    //console.log(result);
     await result.save();
 
     res.status(201).send({ result });

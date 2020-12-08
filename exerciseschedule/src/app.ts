@@ -11,6 +11,8 @@ import { getIdRouter } from "./routes/get-id";
 import { listRouter } from "./routes/list";
 import { updateRouter } from "./routes/update";
 import { updateObjectRouter } from "./routes/update-object";
+import { deleteRouter } from "./routes/delete";
+import { deleteObjectRouter } from "./routes/delete-object";
 
 const app = express();
 const corsOptions = {
@@ -31,6 +33,8 @@ app.use(getIdRouter);
 app.use(listRouter);
 app.use(updateRouter);
 app.use(updateObjectRouter);
+app.use(deleteRouter);
+app.use(deleteObjectRouter);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });
