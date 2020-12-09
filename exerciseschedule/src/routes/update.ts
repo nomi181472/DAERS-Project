@@ -5,68 +5,80 @@ import {
 } from "../models/exercise-schedule-repo/exercise-schedule-repo";
 import { UnknownRouteError } from "../errors/unknown-Route-error";
 import { UnAuthorizedError } from "../errors/unAuthorized-errors";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { requireAuth } from "../middlewares/require-auth";
+import { ExerciseSchedule } from "../models/Exercise-Schedule";
+import { BadRequestError } from "../errors/bad-request-error";
+import { validateRequest } from "../middlewares/validate-request";
 const router = express.Router();
 router.put(
   "/api-gateway/current-user/schedulee/:id",
   requireAuth,
+  [
+    body("document").not().isEmpty().withMessage("document is required"),
+    body("document.*.sameDay").not().isEmpty().withMessage("Day is required"),
+    body("document.*.day.*.sameExercise")
+      .not()
+      .isEmpty()
+      .withMessage("ExerciseID is required"),
+    body("document.*.day.*.exercise.exerciseName")
+      .not()
+      .isEmpty()
+      .withMessage("exerciseName is required"),
+    body("document.*.day.*.exercise.sets")
+      .not()
+      .isEmpty()
+      .withMessage("sets are required"),
+    body("document.*.day.*.exercise.reps")
+      .not()
+      .isEmpty()
+      .withMessage("reps is required"),
+    param("id")
+      .isLength({ min: 24, max: 24 })
+      .withMessage("Schedule id must be length 24"),
+  ],
+
+  validateRequest,
   async (req: Request, res: Response) => {
-    const schedule = await exerciseScheduleModel.findById(req.params.id);
-    if (!schedule) {
+    //const schedule = await exerciseScheduleModel.findById(req.params.id);
+    const sch = new ExerciseSchedule();
+    const schedule = await sch.updatechedule(
+      req.params.id,
+      req.currentUser!.id,
+      req.body
+    );
+    console.log(schedule);
+    if (schedule === "id-not-found") {
       throw new UnknownRouteError("scheduleid not found");
     }
 
-    if (req.currentUser!.id !== schedule!.userId) {
+    if (schedule === "required-authorization") {
       throw new UnAuthorizedError("required authorization");
     }
-
-    const dayR = req.body.document[0].sameDay;
-    //console.log(dayR);
-    const { document } = schedule;
-    //console.log(document[0].day);
-
-    //console.log(documentFromBody[0].day);
-
-    //const dateFromReq = Object.keys(documentFromBody[0])[0]; ///alwasy 0 index
-
-    let index: number = -1;
-    for (var i = 0; i < document.length; i++) {
-      document[i].sameDay;
-      if (dayR === document[i].sameDay) {
-        index = i;
-        // console.log(document[i]);
-        break;
-      }
+    if (!schedule) {
+      throw new BadRequestError("error while updating");
     }
-    if (index >= 0) {
-      // let index2: number = -1;
-      // for (var i = 0; i < document[index].day.length; i++) {
-      //   if (
-      //     document[index].day[i].sameExercise ===
-      //     req.body.document[0].day[0].sameExercise
-      //   ) {
-      //     index2 = i;
-      //     break;
-      //   }
-      // }
-      // if (index2 >= 0) {
-      //   console.log("yes");
-      //   console.log(document[index].day[index2]);
-      // } else {
-      //   document[index].day.push(req.body.document[0].day[0]);
-      //   console.log(document[index].day);
-      // }
-      document[index].day.push(req.body.document[0].day[0]);
-      //console.log(document[index].day);
-    } else {
-      //if not same day
-      document.push(req.body.document[0]);
-    }
-    // console.log(index);
+    // const dayR = req.body.document[0].sameDay;
 
-    //console.log(document);
-    await schedule.save();
+    // const { document } = schedule;
+
+    // let index: number = -1;
+    // for (var i = 0; i < document.length; i++) {
+    //   document[i].sameDay;
+    //   if (dayR === document[i].sameDay) {
+    //     index = i;
+
+    //     break;
+    //   }
+    // }
+    // if (index >= 0) {
+    //   document[index].day.push(req.body.document[0].day[0]);
+    // } else {
+    //   //if not same day
+    //   document.push(req.body.document[0]);
+    // }
+
+    // await schedule.save();
     res.sendStatus(200);
   }
 );
