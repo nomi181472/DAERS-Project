@@ -41,6 +41,7 @@ const exerciseSchema = new mongoose.Schema(
   {
     toJSON: {
       transform(doc: any, ret: any) {
+        ret.id = ret._id;
         delete ret._id;
       },
     },
@@ -56,10 +57,13 @@ interface ExerciseAttrs {
   modality: string;
   joint: string;
 
-  targetMuscleName?: [string];
+  targetMuscleName?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  photos?: {};
+  photos?: {
+    photosUrl: String[];
+    mainPhoto: String;
+  };
 }
 interface ExerciseDocument extends mongoose.Document {
   exerciseCategory: string;
@@ -69,10 +73,13 @@ interface ExerciseDocument extends mongoose.Document {
   direction: string;
   modality: string;
   joint: string;
-  targetMuscleName?: [string];
+  targetMuscleName?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  photos?: {};
+  photos?: {
+    photosUrl: String[];
+    mainPhoto: String;
+  };
 }
 
 interface ExerciseModel extends mongoose.Model<ExerciseDocument> {
@@ -86,4 +93,4 @@ const exerciseModel = mongoose.model<ExerciseDocument, ExerciseModel>(
   "exercise",
   exerciseSchema
 );
-export { exerciseModel };
+export { exerciseModel, ExerciseAttrs };

@@ -58,7 +58,7 @@ export const currentUser = (
   }
 
   try {
-    console.log("inside ");
+    // console.log("inside ");
     const payload = jwt.verify(req.session.jwt, "noman") as UserPayLoad;
     req.currentUser = payload;
   } catch (err) {}

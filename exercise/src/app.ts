@@ -4,10 +4,15 @@ import cors from "cors";
 import { json } from "body-parser";
 
 import cookieSession from "cookie-session";
-import { currentUserRouter } from "./routes/current-user";
 
 import { errorHandler } from "./middlewares/error-handler";
 import { UnknownRouteError } from "./errors/unknown-Route-error";
+import { currentUser } from "./middlewares/current-user";
+import { addExerciseRouter } from "./routes/add";
+import { updateExerciseRouter } from "./routes/update";
+import { detailExerciseRouter } from "./routes/detail";
+import { deleteExerciseRouter } from "./routes/delete";
+import { listExerciseRouter } from "./routes/list";
 //const route=require("./routing-policy");
 //import axios from "axios";
 
@@ -24,8 +29,13 @@ app.use(cors(corsOptions));
 app.use(json());
 app.set("trust proxy", true);
 app.use(cookieSession({ signed: false, httpOnly: false }));
+app.use(currentUser);
+app.use(addExerciseRouter);
+app.use(updateExerciseRouter);
+app.use(detailExerciseRouter);
+app.use(deleteExerciseRouter);
+app.use(listExerciseRouter);
 
-app.use(currentUserRouter);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });
