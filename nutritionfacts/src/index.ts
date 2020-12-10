@@ -1,18 +1,5 @@
-import express, { Request, Response } from "express";
-import { json } from "body-parser";
-import { UnknownRouteError } from "./errors/unknown-Route-error";
 import mongoose from "mongoose";
-import { errorHandler } from "./middlewares/error-handler";
-import { currentUserRouter } from "./routes/current-user";
-const app = express();
-app.use(json());
-app.use(currentUserRouter);
-app.get("*", (req: Request, res: Response) => {
-  throw new UnknownRouteError();
-});
-
-app.use(errorHandler);
-
+import { app } from "./app";
 const start = () => {
   try {
     mongoose.connect("mongodb://localhost:27017/nutritionfacts", {

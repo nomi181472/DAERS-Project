@@ -66,6 +66,7 @@ const nutritionfactSchema = new mongoose.Schema(
   {
     toJSON: {
       transform(doc: any, ret: any) {
+        ret.id = ret._id;
         delete ret._id;
       },
     },
@@ -91,7 +92,10 @@ interface NutritionFactAttrs {
   proteinCategory?: {};
   protein?: number;
   water?: number;
-  photos?: {};
+  photos?: {
+    photosUrl: String[];
+    mainPhoto: String;
+  };
 }
 interface NutritionFactDocument extends mongoose.Document {
   nutritionCategory: string;
@@ -112,7 +116,10 @@ interface NutritionFactDocument extends mongoose.Document {
   proteinCategory?: {};
   protein?: number;
   water?: number;
-  photos?: {};
+  photos?: {
+    photosUrl: String[];
+    mainPhoto: String;
+  };
 }
 
 interface NutritionFactModel extends mongoose.Model<NutritionFactDocument> {
@@ -126,4 +133,4 @@ const nutritionFactModel = mongoose.model<
   NutritionFactDocument,
   NutritionFactModel
 >("nutritionfacts", nutritionfactSchema);
-export { nutritionFactModel };
+export { nutritionFactModel, NutritionFactAttrs };

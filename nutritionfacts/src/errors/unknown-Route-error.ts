@@ -2,11 +2,11 @@ import { CustomError } from "./custom-error";
 
 export class UnknownRouteError extends CustomError {
   statusCode = 400;
-  constructor() {
+  constructor(public str = "unkown route not found") {
     super("Route not Found");
     Object.setPrototypeOf(this, UnknownRouteError.prototype);
   }
   serializeErrors() {
-    return [{ message: "unkown route not found" }];
+    return [{ message: this.str }];
   }
 }
