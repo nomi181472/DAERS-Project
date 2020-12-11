@@ -25,20 +25,23 @@ const userSchema = new mongoose.Schema(
       max: 65,
     },
     bmi: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
     weight: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
       required: true,
     },
     height: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
       required: true,
+    },
+    country: {
+      type: String,
     },
     userInformation: {
       ques: [String],
-      ans: [Boolean],
+      ans: [String],
     },
     createdAt: {
       type: Date,
@@ -60,6 +63,7 @@ const userSchema = new mongoose.Schema(
   {
     toJSON: {
       transform(doc: any, ret: any) {
+        ret.id = ret._id;
         delete ret._id;
         delete ret.password;
         delete ret.__v;
@@ -77,10 +81,20 @@ interface UserAttrs {
   bmi: number;
   weight: number;
   height: number;
-  userInformation?: {};
+  userInformation?: {
+    ques:String[],
+    ans: String[],
+  };
   createdAt?: Date;
   updatedAt?: Date;
-  photos?: {};
+  photos: {
+    photosUrl: String[],
+    mainPhoto: String,
+    updatedMainPhoto: {
+      type: Date,
+      Default: Date,
+    },
+  },
 }
 
 //An interface that describe the properties of the user model
@@ -97,10 +111,20 @@ interface UserDocument extends mongoose.Document {
   bmi: number;
   weight: number;
   height: number;
-  userInformation?: {};
+  userInformation?: {
+    ques:String[],
+    ans: String[],
+  };
   createdAt?: Date;
   updatedAt?: Date;
-  photos?: {};
+  photos: {
+    photosUrl: String[],
+    mainPhoto: String,
+    updatedMainPhoto: {
+      type: Date,
+      Default: Date,
+    },
+  },
 }
 userSchema.pre("save", async function (done) {
   if (this.isModified()) {

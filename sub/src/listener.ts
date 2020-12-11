@@ -6,16 +6,21 @@ const stan = nats.connect("daers", randomBytes(4).toString("hex"), {
 });
 stan.on("connect", () => {
   console.log("listener connected to NATs");
-stan.on("close",()=>{
-  console.log("NATS connection closed!");
-  process.exit(); 
-});
+  stan.on("close", () => {
+    console.log("NATS connection closed!");
+    process.exit();
+  });
 
-  const options = stan.subscriptionOptions().setManualAckMode(true);
+  const options = stan
+    .subscriptionOptions()
+    .setManualAckMode(true)
+    .setDeliverAllAvailable()
+    .setDurableName("daers-backened");
 
   const subsctiption = stan.subscribe(
     "daers:created",
-    "listening-channel",
+    "queue-group-name",
+
     options
   );
   subsctiption.on("message", (msg: Message) => {
@@ -28,8 +33,6 @@ stan.on("close",()=>{
   });
 });
 
+process.on("SIGNINT", () => stan.close());
 
-
-process.on("SIGNINT",()=>stan.close());
-
-process.on("SIGTERM",()=>stan.close());
+process.on("SIGTERM", () => stan.close());

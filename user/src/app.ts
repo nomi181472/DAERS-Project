@@ -10,6 +10,11 @@ import { signOutRouter } from "./routes/sign-out";
 import { signUpRouter } from "./routes/sign-up";
 import { errorHandler } from "./middlewares/error-handler";
 import { UnknownRouteError } from "./errors/unknown-Route-error";
+import { addUserRouter } from "./routes/add";
+import { deleteUserRouter } from "./routes/delete";
+import { listUserRouter } from "./routes/list";
+import { detailUserRouter } from "./routes/detail";
+import { updateUserRouter } from "./routes/update";
 //const route=require("./routing-policy");
 //import axios from "axios";
 
@@ -30,6 +35,11 @@ app.use(signInRouter);
 app.use(signOutRouter);
 app.use(signUpRouter);
 app.use(currentUserRouter);
+//app.use(addUserRouter);
+app.use(deleteUserRouter);
+app.use(listUserRouter);
+app.use(detailUserRouter);
+app.use(updateUserRouter);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });
