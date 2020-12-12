@@ -6,7 +6,7 @@ import { Exercise } from "../models/exercise";
 const router = express.Router();
 router.get(
   "/api-gateway/current-user/exercise",
-  requireAuth,
+  //requireAuth,
   async (req: Request, res: Response) => {
     const ex = new Exercise();
     const exercise = await ex.listExercise();

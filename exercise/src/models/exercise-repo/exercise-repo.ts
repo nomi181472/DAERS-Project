@@ -8,7 +8,7 @@ const exerciseSchema = new mongoose.Schema(
       type: String,
     },
     level: {
-      type: Number,
+      type: String,
     },
     type: {
       type: String,
@@ -51,7 +51,7 @@ const exerciseSchema = new mongoose.Schema(
 interface ExerciseAttrs {
   exerciseCategory: string;
   exerciseName: string;
-  level: number;
+  level: string;
   type: string;
   direction: string;
   modality: string;
@@ -68,7 +68,7 @@ interface ExerciseAttrs {
 interface ExerciseDocument extends mongoose.Document {
   exerciseCategory: string;
   exerciseName: string;
-  level: number;
+  level: string;
   type: string;
   direction: string;
   modality: string;
