@@ -9,7 +9,8 @@ router.get(
   //requireAuth,
   async (req: Request, res: Response) => {
     const ex = new Exercise();
-    const exercise = await ex.listExercise();
+    const { query } = req;
+    const exercise = await ex.listExercise(query);
 
     if (!exercise || exercise === "empty") {
       throw new BadRequestError("error while listing");

@@ -57,9 +57,24 @@ export class Exercise {
       return null;
     }
   }
-  public async listExercise() {
+  public async listExercise(query: any) {
+    let ex:any;
     try {
-      const ex = await exerciseModel.find({});
+      const page= query.page||1
+      const  perPage = parseInt(page) || 10
+      
+      var pagination = {
+        limit: perPage ,
+        skip:perPage * (page - 1)
+      }
+      const { exerciseCategory } = query
+      if (typeof exerciseCategory === "undefined") { 
+        ex = await exerciseModel.find({});
+      }
+
+      else {
+        ex = await exerciseModel.find({ exerciseCategory: exerciseCategory }).exec();
+      }
       if (!ex) {
         return "empty";
       }

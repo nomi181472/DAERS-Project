@@ -1,6 +1,8 @@
 import Router from "next/router";
 import useRequest from "../../hooks/use-request";
 import {useState} from "react";
+import styles from "./upload.module.css";
+import ImageUpload from "../../ui/Imageupload";
 const add=({currentUser})=>{
   // console.log(currentUser);
   if(currentUser){
@@ -10,11 +12,43 @@ const add=({currentUser})=>{
     const [carbohydrates,setCarbohydrates]=useState(0);
     const [protein,setProtein]=useState(0);
     const [calories,setCalories]=useState(0);
-    const [photos,setPhotos]=useState([]);
+    const [photosUrl,setPhotosUrl]=useState([]);
+    const [mainPhoto,setMainPhoto]=useState("");
+    const [files, setFiles] = useState([]);
     
-    // const [forBack,setForBack]=useState([]);
-    //const [disable,setDisable]=useState(false);
-   // const [editOrConfirm,setEditOrConfirm]=useState("Confirm");
+ const upload = () => {
+    const uploadURL = 'https://api.cloudinary.com/v1_1/dhqfhpemf/image/upload';
+    const uploadPreset = 'vpxyox0m';
+ 
+    files.forEach(async(file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+      try{
+     const res=await axios({
+        url: uploadURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: formData
+      })
+      setPhotosUrl(photosUrl=>[...photosUrl,res.data.url])
+      setMainPhoto(res.data.url);
+      
+    }
+    catch(err){
+      
+       console.log(err)
+    }
+      
+    })
+  }
+  const onDrop = (acceptedFiles) => {
+    setFiles(acceptedFiles.map(file => Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    })));
+  }
      const {doRequest,errors}=useRequest({
        url:`http://localhost:3030/api-gateway/current-user/nutritionfact`,
       method:"post",
@@ -25,7 +59,10 @@ const add=({currentUser})=>{
         carbohydrates,
         protein,
         calories,
-        photos
+        photos:{
+          photosUrl:photosUrl,
+          mainPhoto:mainPhoto
+        }
       },
       onSuccess:()=>console.log('successFull nutrition created'),
     })
@@ -43,10 +80,11 @@ const cancelMe=()=>{
 }
 
 return (
-<div className="container  mt-0">
+<div className="container-fluid">
 
-<div className="card-group">
-<div className="card">
+<div className="row">
+  <div className="container">
+<div className="card-coulmns">
 
 <div className="card-body ">
 <h2 className="card-title ">Add Nutrition</h2>
@@ -92,7 +130,30 @@ return (
 
 
 
-<tr>
+
+
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div className="card-body" style={{width:400}}>
+<div className={styles.App} >
+      <ImageUpload files={files} onDrop={onDrop}/>
+      <button onClick={() => upload()}>Upload</button>
+      
+     
+      
+    </div>
+    </div>
+    </div>
+<div>
+  <div className="d-flex justify-content-center">
+    <table>
+      <tbody>
+      <tr>
 <td className="card-text"></td>
 <td className="card-text text-right"><button onClick={onClick} className="btn btn-primary spaced">Add</button> </td>
 
@@ -102,29 +163,10 @@ return (
 <td className="card-text text-right"> <button onClick={cancelMe}className="btn btn-primary spaced">Cancel</button></td>
 
 </tr>
-
-
-</tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
 </div>
-</div>
-</div>
-</div>
-<style>
-{
-`
-.mt-0 {
-  margin-top: 20px !important;
-}
-.spaced{
-  margin-left: 10px !important;
-}
-input[type="text"]:disabled {
-  background: #dddddd;
-}
-`
-}
-</style>
 </div>
 
 

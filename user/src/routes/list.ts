@@ -11,11 +11,13 @@ router.get(
   requireAuth,
   async (req: Request, res: Response) => {
     const u = new User();
-    const user = await u.listExercise();
+    const { query } = req;
+    const user = await u.listUser(query);
 
     if (!user || user === "empty") {
       throw new BadRequestError("error while listing");
     }
+   
     res.status(200).send({ user });
   }
 );

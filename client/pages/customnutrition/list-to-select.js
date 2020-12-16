@@ -2,6 +2,7 @@ import Link from "next/link";
 import axios from "axios";
 import Router  from "next/router";
 import fetch from "isomorphic-unfetch";
+import ListEachDay from "./list-each-day";
 const list= ({data,currentUser})=>{
  //   console.log(data);
    // console.log("running");
@@ -9,14 +10,7 @@ const list= ({data,currentUser})=>{
 let exerciseList;
 
 
-const deleteIt=async (e)=>{
-  //console.log("click",e.target.value);
-  const response= await axios.delete(`http://localhost:3030/api-gateway/current-user/nutritionFact/${e.target.value}`,{withCredentials:"include"})
- if(response.status===200){
-  Router.push("list");
- }
- 
-}
+
 console.log(data);
 if(data ){
   
@@ -46,7 +40,6 @@ exerciseList=data.nutrition.map(n=>{
    <div className="col-xs-3">
   <h1>NutritionFacts</h1>
   <div className="table-responsive">
-  <Link href="add"><a className="btn btn-primary">Add NutritionFacts</a></Link>
   <table className="table table-striped">
     <thead>
       <tr>
@@ -54,7 +47,7 @@ exerciseList=data.nutrition.map(n=>{
      Category
         </th>
         <th>
-    Name
+         Name
         </th>
         <th>
         Fats
@@ -85,6 +78,9 @@ exerciseList=data.nutrition.map(n=>{
   </div>
   </div>
   <div>
+    </div>
+    <div>
+      <ListEachDay pass="pass"/>
     </div>
  
 </div>

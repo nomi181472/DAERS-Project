@@ -246,4 +246,11 @@ export class NutritionFactsSchedule {
       return null;
     }
   }
+  public async getUserScheduleId(userId:string) {
+    const schedule = await nutritionScheduleModel.find({ userId: userId });
+    if (!schedule) {
+      return "not-found";
+    }
+    return schedule;
+  }
 }

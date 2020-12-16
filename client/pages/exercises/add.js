@@ -1,5 +1,8 @@
 import Router from "next/router";
 import useRequest from "../../hooks/use-request";
+import styles from "./upload.module.css";
+import ImageUpload from "../../ui/Imageupload";
+import axios from "axios";
 import {useState} from "react";
 const add=({currentUser})=>{
   // console.log(currentUser);
@@ -11,11 +14,45 @@ const add=({currentUser})=>{
     const [type,setType]=useState("");
     const [modality,setModality]=useState("");
     const [direction,setDirection]=useState("");
-    const [photosURL,setPhotosURL]=useState("");
-    photosURL
-    // const [forBack,setForBack]=useState([]);
-    //const [disable,setDisable]=useState(false);
-   // const [editOrConfirm,setEditOrConfirm]=useState("Confirm");
+    const [files, setFiles] = useState([]);
+    const [photosUrl,setPhotosUrl]=useState([]);
+    const [mainPhoto,setMainPhoto]=useState("");
+    const upload = () => {
+    const uploadURL = 'https://api.cloudinary.com/v1_1/dhqfhpemf/image/upload';
+    const uploadPreset = 'vpxyox0m';
+ 
+    files.forEach(async(file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+      try{
+     const res=await axios({
+        url: uploadURL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: formData
+      })
+      setPhotosUrl(photosUrl=>[...photosUrl,res.data.url])
+      setMainPhoto(res.data.url);
+      
+    }
+    catch(err){
+      
+       console.log(err)
+    }
+      
+    })
+  }
+ 
+  
+ 
+    const onDrop = (acceptedFiles) => {
+      setFiles(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      })));
+    }
      const {doRequest,errors}=useRequest({
        url:`http://localhost:3020/api-gateway/current-user/exercise`,
       method:"post",
@@ -26,9 +63,13 @@ const add=({currentUser})=>{
        type,
        joint,
        direction,
-       modality
+       modality,
+       photos:{
+        photosUrl:photosUrl,
+        mainPhoto:mainPhoto
+       }
       },
-      onSuccess:()=>console.log('successFull'),
+      onSuccess:(photosUrl)=>console.log(photosUrl),
     })
 
  
@@ -44,11 +85,11 @@ const cancelMe=()=>{
 }
 
 return (
-<div className="container  mt-0">
+<div className="container-fluid">
 
-<div className="card-group">
-<div className="card">
-<h2 className="" >{photosURL}</h2>
+<div className="row">
+  <div className="container">
+<div className="card-coulmns">
 <div className="card-body ">
 <h2 className="card-title ">Add Exercise</h2>
 
@@ -94,39 +135,48 @@ return (
 
 
 
-<tr>
-<td className="card-text"></td>
-<td className="card-text text-right"><button onClick={onClick} className="btn btn-primary spaced">Add</button> </td>
 
-</tr>
-<tr>
-<td className="card-text"></td>
-<td className="card-text text-right"> <button onClick={cancelMe}className="btn btn-primary spaced">Cancel</button></td>
-
-</tr>
 
 
 </tbody>
 </table>
 </div>
+
+</div>
+
 </div>
 </div>
+<div className="card-body" style={{width:400}}>
+<div className={styles.App} >
+      <ImageUpload files={files} onDrop={onDrop}/>
+      <button onClick={() => upload()}>Upload</button>
+      
+     
+      
+    </div>
+    </div>
+
+    
 </div>
-<style>
-{
-`
-.mt-0 {
-  margin-top: 20px !important;
-}
-.spaced{
-  margin-left: 10px !important;
-}
-input[type="text"]:disabled {
-  background: #dddddd;
-}
-`
-}
-</style>
+<div >
+<div className="d-flex justify-content-center">
+      <table>
+        <tbody>
+      <tr>
+ 
+<td className="card-text "><button onClick={onClick} className="btn btn-primary spaced">Add</button> </td>
+
+</tr>
+<tr>
+
+<td className="card-text "> <button onClick={cancelMe}className="btn btn-primary spaced">Cancel</button></td>
+
+</tr>
+</tbody>  </table>
+
+    </div>
+</div>
+
 </div>
 
 

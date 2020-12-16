@@ -1,4 +1,5 @@
-import { UserSchema,UserAttrs } from "./user-repo/user-repo";
+import { UserSchema, UserAttrs } from "./user-repo/user-repo";
+import  mongoosePaginate  from "mongoose-paginate-v2";
 
 export class User {
   constructor() { }
@@ -60,9 +61,24 @@ export class User {
       return null;
     }
   }
-  public async listExercise() {
+  public async listUser(query: any) {
+    let user:any;
     try {
-      const user = await UserSchema.find({});
+      
+      const page= query.page||1
+    const  perPage = parseInt(page) || 10
+    
+    var pagination = {
+      limit: perPage ,
+      skip:perPage * (page - 1)
+    }
+    
+  
+      
+      
+      user = await UserSchema.find({})
+         
+      
       if (!user) {
         return "empty";
       }

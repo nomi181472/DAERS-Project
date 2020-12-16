@@ -1,9 +1,12 @@
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 const listExercise=({data})=>{
-   console.log(data.schedulenf);
+   console.log(data.schedule);
     //console.log("running");
 let nutritionList;
+data.schedule.map((nf)=>{
+  console.log(nf);
+})
 if(data && null){
 nutritionList=data.schedulenf.map(nf=>{
   return (
@@ -81,14 +84,14 @@ if(currentUser)
       // return {data};
 
       
-      const response=await fetch("http://localhost:3031/api-gateway/current-user/schedulenf",{credentials:"include"},{headers: context.req.headers})
+      const response=await fetch("http://localhost:3031/api-gateway/current-user/schedulenf-user/getschedule",{credentials:"include",headers: context.req.headers})
       const data=await response.json()
       return {data};
     }
     
     else{
       console.log("client  side");
-        const response=await fetch("http://localhost:3031/api-gateway/current-user/schedulenf",{credentials:"include"})
+        const response=await fetch("http://localhost:3031/api-gateway/current-user/schedulenf-user/getschedule",{credentials:"include"})
         const data=await response.json()
         return {data};
     }

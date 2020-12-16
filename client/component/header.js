@@ -32,14 +32,14 @@ export default ({ currentUser }) => {
       label: "Nutrition",
       href: "/nutritionfacts/list",
     },
-    currentUser && {
-      label: "Custom Nutrition Schedule",
-      href: "/customnutrition/list-to-select",
-    },
     
     currentUser && {
       label: "Custom Exercise Schedule",
       href: "/customexercise/list-to-select",
+    },
+    currentUser && {
+      label: "Custom nutrition Schedule",
+      href: "/customnutrition/list-to-select",
     },
     currentUser && {
       label: "Exercise",

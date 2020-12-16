@@ -13,6 +13,7 @@ import { updateRouter } from "./routes/update";
 import { updateObjectRouter } from "./routes/update-object";
 import { deleteRouter } from "./routes/delete";
 import { deleteObjectRouter } from "./routes/delete-object";
+import { getUserScheduleRouter } from "./routes/getuserschedule";
 
 const app = express();
 const corsOptions = {
@@ -31,10 +32,12 @@ app.use(currentUser);
 app.use(newSchedule);
 app.use(getIdRouter);
 app.use(listRouter);
+app.use(getUserScheduleRouter);
 app.use(updateRouter);
 app.use(updateObjectRouter);
 app.use(deleteRouter);
 app.use(deleteObjectRouter);
+
 app.all("*", async () => {
   throw new UnknownRouteError();
 });

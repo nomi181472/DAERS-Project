@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Password } from "./password";
+import mongoosePaginate from 'mongoose-paginate-v2';
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -100,6 +101,7 @@ interface UserAttrs {
 //An interface that describe the properties of the user model
 interface UserModel extends mongoose.Model<UserDocument> {
   build(user: UserAttrs): UserDocument;
+  
 }
 //interface that describe the properties for the document (single user has)
 interface UserDocument extends mongoose.Document {
@@ -136,6 +138,7 @@ userSchema.pre("save", async function (done) {
 userSchema.statics.build = (user: UserAttrs) => {
   return new UserSchema(user);
 };
+userSchema.plugin(mongoosePaginate);
 const UserSchema = mongoose.model<UserDocument, UserModel>("User", userSchema);
 /*
 const user=User.build({
