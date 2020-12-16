@@ -11,16 +11,16 @@ const nutritionfactSchema = new mongoose.Schema(
       type: {},
     },
     fats: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     sugarsSub: {
       type: {},
     },
     sugars: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     totalLipids: {
-      type: mongoose.Schema.Types.Decimal128,
+      type:Number,
     },
     mineralsCategory: {
       type: {},
@@ -37,25 +37,25 @@ const nutritionfactSchema = new mongoose.Schema(
       Default: Date.now,
     },
     carbohydrates: {
-      type: mongoose.Schema.Types.Decimal128,
+      type:Number,
     },
     cholestrol: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     fiber: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     calories: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     proteinCategory: {
       type: {},
     },
     protein: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: Number,
     },
     water: {
-      type: mongoose.Schema.Types.Decimal128,
+      type:Number,
     },
 
     photos: {

@@ -87,7 +87,7 @@ interface UserAttrs {
   };
   createdAt?: Date;
   updatedAt?: Date;
-  photos: {
+  photos?: {
     photosUrl: String[],
     mainPhoto: String,
     updatedMainPhoto: {
@@ -117,7 +117,7 @@ interface UserDocument extends mongoose.Document {
   };
   createdAt?: Date;
   updatedAt?: Date;
-  photos: {
+  photos?: {
     photosUrl: String[],
     mainPhoto: String,
     updatedMainPhoto: {

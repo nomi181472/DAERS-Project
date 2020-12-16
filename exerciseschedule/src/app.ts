@@ -16,13 +16,13 @@ import { deleteObjectRouter } from "./routes/delete-object";
 
 const app = express();
 const corsOptions = {
-  origin: "*",
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
   credentials: true,
   exposedHeaders: "*",
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions));;
 
 app.use(json());
 app.set("trust proxy", true);

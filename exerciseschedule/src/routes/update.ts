@@ -47,7 +47,7 @@ router.put(
       req.currentUser!.id,
       req.body
     );
-    console.log(schedule);
+    //console.log(schedule);
     if (schedule === "id-not-found") {
       throw new UnknownRouteError("scheduleid not found");
     }

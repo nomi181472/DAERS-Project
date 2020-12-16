@@ -22,13 +22,13 @@ router.put(
     .isEmpty()
     .withMessage("nutritionName is required"),
   body("fats").not().isEmpty().withMessage("fats is required"),
-  body("sugars").not().isEmpty().withMessage("sugars is required"),
+ // body("sugars").not().isEmpty().withMessage("sugars is required"),
   body("carbohydrates")
     .not()
     .isEmpty()
     .withMessage("carbohydrates is required"),
-  body("cholestrol").not().isEmpty().withMessage("cholestrol is required"),
-  body("fiber").not().isEmpty().withMessage("fiber is required"),
+  // body("cholestrol").not().isEmpty().withMessage("cholestrol is required"),
+  // body("fiber").not().isEmpty().withMessage("fiber is required"),
   body("calories").not().isEmpty().withMessage("calories is required"),
   body("protein").not().isEmpty().withMessage("protein is required"),
 
@@ -42,7 +42,7 @@ router.put(
     if (!nutrition) {
       throw new BadRequestError("error while updating");
     }
-    res.status(201).send({ nutrition });
+    res.status(200);
   }
 );
 export { router as updateNutritionRouter };

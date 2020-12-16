@@ -11,7 +11,7 @@ router.get(
     if (!schedule) {
       throw new BadRequestError("error while listing");
     }
-    res.send(schedule);
+    res.send({schedulenf:schedule});
   }
 );
 export { router as listRouter };

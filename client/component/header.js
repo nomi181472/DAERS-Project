@@ -1,5 +1,19 @@
 import Link from "next/link";
+import Head from "next/head"
+import Router from "next/router";
+import NProgress from "nprogress";
+
+Router.onRouteChangeStart=(url)=>{
+  console.log(url);
+  NProgress.start();
+}
+Router.onRouteChangeComplete=()=>{
+  NProgress.done();
+}
+Router.OnRouteChangeError=()=>NProgress.done();
+
 export default ({ currentUser }) => {
+  //console.log("header",currentUser);
   const links = [
     !currentUser && {
       label: "sign Up",
@@ -9,10 +23,33 @@ export default ({ currentUser }) => {
       label: "sign in",
       href: "/auth/signin",
     },
+    
+    currentUser && {
+      label: "Users",
+      href: "/user/list",
+    },
+    currentUser && {
+      label: "Nutrition",
+      href: "/nutritionfacts/list",
+    },
+    currentUser && {
+      label: "Custom Nutrition Schedule",
+      href: "/customnutrition/list-to-select",
+    },
+    
+    currentUser && {
+      label: "Custom Exercise Schedule",
+      href: "/customexercise/list-to-select",
+    },
+    currentUser && {
+      label: "Exercise",
+      href: "/exercises/list",
+    },
     currentUser && {
       label: "sign out",
       href: "/auth/signout",
     },
+    
   ]
     .filter((linkConfig) => linkConfig)
     .map(({ label, href }) => {
@@ -25,6 +62,11 @@ export default ({ currentUser }) => {
       );
     });
   return (
+    <div>
+      <Head>
+        <title>DAERS</title>
+      
+      </Head>
     <nav className="navbar navbar-light bg-light">
       <Link href="/">
         <a className="navbar-brand">DAERS</a>
@@ -33,5 +75,6 @@ export default ({ currentUser }) => {
         <ul className="nav d-flex align-items-center"> {links}</ul>
       </div>
     </nav>
+    </div>
   );
 };

@@ -32,7 +32,7 @@ router.post(
     if (existingUser) {
       throw new BadRequestError("email already in used");
     }
-
+    
     const createdUser = UserSchema.build({
       email,
       password,

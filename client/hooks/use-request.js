@@ -8,15 +8,12 @@ export default ({ url, method, body, onSuccess }) => {
       const response = await axios[method](url, body, {
         withCredentials: true,
       });
-      //console.log(response.data);
-      const { userJWT } = response.data;
-      /**  */ const token = "express:sess=" + userJWT + "==";
-      //console.log(token);
-      //localStorage.setItem("token", token);
-      //console.log(document.cookie);
-      //console.log(document.cookie);
+      
+      
+     
       if (onSuccess) {
         onSuccess(response.data);
+       
       }
     } catch (err) {
       setErrors(
