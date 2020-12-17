@@ -26,7 +26,8 @@ const update=({data})=>{
        type,
        joint,
        direction,
-       modality
+       modality,
+       photos:data.photos
       },
       onSuccess:()=>console.log('successFull'),
     })
@@ -57,13 +58,23 @@ const onClick=()=>{
 const cancelMe=()=>{
   Router.push("/exercises/list");
 }
+        
 
+console.log(data.photos)
 return (
 <div className="container  mt-0">
 
 <div className="card-group">
 <div className="card">
-<h2 className="" >{data.photos.photosURL}</h2>
+<div className="card-columns">
+  <div class="card align-center" style={{width:"100%"}}>
+    <img class="card-img-top" src={data.photos.mainPhoto}alt="Card image" style={{width:"100%"}}/>
+    </div>
+    
+    </div>
+    
+    
+<h2 className="" ></h2>
 <div className="card-body ">
 <h2 className="card-title ">{ data.exerciseName}</h2>
 
@@ -121,21 +132,7 @@ return (
 </div>
 </div>
 </div>
-<style>
-{
-`
-.mt-0 {
-  margin-top: 20px !important;
-}
-.spaced{
-  margin-left: 10px !important;
-}
-input[type="text"]:disabled {
-  background: #dddddd;
-}
-`
-}
-</style>
+
 </div>
 
 
@@ -149,16 +146,15 @@ else
 }
 
 update.getInitialProps=async (context,client,currentUser)=>{
-//console.log("exercise/list",currentUser);
-//here is admin
+
 const {updateId}=context.query;
-//console.log("id",updateId);
+
 if(currentUser)
     if(typeof window==="undefined"){
       
-       // console.log("server  side");
+      
         client.defaults.baseURL  =`http://localhost:3020/api-gateway/current-user/exercise/${updateId}`;
-      //  console.log(context.req.headers);
+     
       const {data}=await client.get("",{headers: context.req.headers,});
       client.defaults.baseURL= "http://localhost:3010/api-gateway/current-user/";
       return {data};
@@ -167,7 +163,7 @@ if(currentUser)
     else{
         const response=await fetch(`http://localhost:3020/api-gateway/current-user/exercise/${updateId}`,{credentials:"include"})
         const data=await response.json()
-        //console.log("response",data);
+        
         return {data};
     }
 

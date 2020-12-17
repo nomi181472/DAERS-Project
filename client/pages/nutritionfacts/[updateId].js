@@ -63,7 +63,12 @@ return (
 
 <div className="card-group">
 <div className="card">
-<h2 className="" >{data.photos.mainPhoto}</h2>
+<div className="card-columns">
+  <div class="card" style={{width:"60%"}}>
+    <img class="card-img-top" src={data.photos.mainPhoto}alt="Card image" style={{width:"100%"}}/>
+    </div>
+    
+    </div>
 <div className="card-body ">
 <h2 className="card-title ">{ data.nutritionName}</h2>
 
@@ -115,21 +120,7 @@ return (
 </div>
 </div>
 </div>
-<style>
-{
-`
-.mt-0 {
-  margin-top: 20px !important;
-}
-.spaced{
-  margin-left: 10px !important;
-}
-input[type="text"]:disabled {
-  background: #dddddd;
-}
-`
-}
-</style>
+
 </div>
 
 

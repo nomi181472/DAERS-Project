@@ -3,6 +3,7 @@ import useRequest from "../../hooks/use-request";
 import {useState} from "react";
 import styles from "./upload.module.css";
 import ImageUpload from "../../ui/Imageupload";
+import axios from "axios";
 const add=({currentUser})=>{
   // console.log(currentUser);
   if(currentUser){
@@ -33,8 +34,12 @@ const add=({currentUser})=>{
         },
         data: formData
       })
-      setPhotosUrl(photosUrl=>[...photosUrl,res.data.url])
+      console.log(res.data.url);
+
+      setPhotosUrl([...photosUrl,res.data.url])
       setMainPhoto(res.data.url);
+      
+      
       
     }
     catch(err){
@@ -49,28 +54,35 @@ const add=({currentUser})=>{
       preview: URL.createObjectURL(file)
     })));
   }
+  const body={
+    nutritionCategory,
+    nutritionName,
+    fats,
+    carbohydrates,
+    protein,
+    calories,
+    photos:{
+      photosUrl:photosUrl,
+      mainPhoto:mainPhoto
+    }
+  }
      const {doRequest,errors}=useRequest({
        url:`http://localhost:3030/api-gateway/current-user/nutritionfact`,
       method:"post",
-      body:{
-        nutritionCategory,
-        nutritionName,
-        fats,
-        carbohydrates,
-        protein,
-        calories,
-        photos:{
-          photosUrl:photosUrl,
-          mainPhoto:mainPhoto
-        }
-      },
-      onSuccess:()=>console.log('successFull nutrition created'),
+      body:body
+      ,
+      onSuccess:(body)=>console.log('successFull nutrition created',body),
     })
 
  
   
 const onClick=()=>{
-doRequest();
+
+
+  doRequest();
+ 
+ 
+
 
 }  
 
@@ -104,23 +116,23 @@ return (
 </tr>
 <tr>
 <td className="card-text">Fats</td>
-<td className="card-text"><input value={fats} onChange={(e)=>setFats(e.target.value)} type="text" /></td>
+<td className="card-text"><input value={fats} onChange={(e)=>setFats(e.target.value)} type="number" step="0.0"/></td>
 </tr>
 <tr>
 <td className="card-text">Carbohydrates</td>
-<td className="card-text"><input value={carbohydrates} onChange={(e)=>setCarbohydrates(e.target.value)} type="text" /></td>
+<td className="card-text"><input value={carbohydrates} onChange={(e)=>setCarbohydrates(e.target.value)} type="number" step="0.0" /></td>
 </tr>
 
 <tr>
 <td className="card-text">Protein</td>
-<td className="card-text"><input value={protein} onChange={(e)=>setProtein(e.target.value)} type="text"   /></td>
+<td className="card-text"><input value={protein} onChange={(e)=>setProtein(e.target.value)} type="number" step="0.0"  /></td>
 <td className="card-text">
 
 </td>
 </tr>
 <tr>
 <td className="card-text">Calories</td>
-<td className="card-text"><input value={calories} onChange={(e)=>setCalories(e.target.value)} type="text"   /></td>
+<td className="card-text"><input value={calories} onChange={(e)=>setCalories(e.target.value)} type="number" step="0.0"  /></td>
 </tr>
 
 <tr>
@@ -141,8 +153,8 @@ return (
 </div>
 <div className="card-body" style={{width:400}}>
 <div className={styles.App} >
-      <ImageUpload files={files} onDrop={onDrop}/>
-      <button onClick={() => upload()}>Upload</button>
+      <ImageUpload  files={files} onDrop={onDrop}/>
+      <button onClick={upload}>Upload</button>
       
      
       

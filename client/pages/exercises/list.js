@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from 'next/image'
 import {useState} from "react";
 import axios from "axios";
 import Router  from "next/router";
@@ -29,7 +30,8 @@ exerciseList=data.exercise.map(ex=>{
       <td>{ex.joint}</td>
       <td>{ex.type}</td>
       <td>{ex.direction}</td>
-      <td>{ex.photos.mainPhoto}</td>
+      <td><img src={ex.photos.mainPhoto} className="img-fluid img-thumbnail rounded" alt={"Image: "+ex.exerciseName} layout="responsive" width={300}
+        height={300} /></td>
 
       <td>
        <Link href="/exercises/[updateId]" as={`/exercises/${ex.id}`}>
@@ -42,6 +44,7 @@ exerciseList=data.exercise.map(ex=>{
 });
  return (
  <div className='container-fluid'>
+  
    <div className="col-xs-3">
   <h1>Exercies</h1>
   <div className="table-responsive">

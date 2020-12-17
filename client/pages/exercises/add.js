@@ -36,7 +36,7 @@ const add=({currentUser})=>{
       })
       setPhotosUrl(photosUrl=>[...photosUrl,res.data.url])
       setMainPhoto(res.data.url);
-      
+      console.log(res.data.url);
     }
     catch(err){
       
@@ -149,7 +149,7 @@ return (
 <div className="card-body" style={{width:400}}>
 <div className={styles.App} >
       <ImageUpload files={files} onDrop={onDrop}/>
-      <button onClick={() => upload()}>Upload</button>
+      <button onClick={upload}>Upload</button>
       
      
       

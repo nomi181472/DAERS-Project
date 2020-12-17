@@ -29,7 +29,8 @@ exerciseList=data.nutrition.map(n=>{
       <td>{n.protein}</td>
       <td>{n.calories}</td>
       
-      <td>{n.photos.mainPhoto}</td>
+      <td><img src={n.photos.mainPhoto} className="img-fluid img-thumbnail rounded" alt={"Image: "+n.nutritionName} layout="responsive" width={300}
+        height={300} /></td>
       <td>
        <Link href="/nutritionfacts/[updateId]" as={`/nutritionfacts/${n.id}`}>
    <a className="btn btn-primary  active form-group" role="button" aria-pressed="true">Update</a>
