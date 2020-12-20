@@ -1,11 +1,11 @@
-import {nutritionScheduleModel,NutritionFactsScheduleAttrs } from "./nutrition-repo/nutrition-schedule";
+import {ExerciseScheduleAttrs,exerciseScheduleModel } from "./exercise-repo/exercise-reminder-repo";
 
 export class Reminder {
   constructor() {}
   
   public async sortDates(id: any) {
     
-    const data = await nutritionScheduleModel.findById(id).select("document.sameDay");
+    const data = await exerciseScheduleModel.findById(id).select("document.sameDay");
 
     function byDate(a: any, b: any) {
       const aa = new Date(a.sameDay)

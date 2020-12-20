@@ -4,7 +4,8 @@ import Router from "next/router";
 import axios from "axios"
 import CardDetails from "./CardDetails";
 import {useState} from "react";
-const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>{
+const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
+	
 	var weekday = new Array(7);
 	weekday[0] = "Sunday";
 	weekday[1] = "Monday";
@@ -14,38 +15,38 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 	weekday[5] = "Friday";
 	weekday[6] = "Saturday";
 	
-	const {document}=schedulee[0];
-
+	const {document}=schedulenf[0];
+	console.log("document",document);
 	const [view,setView]=useState(false);
 	const lastView=[];
 	const [showDetailsCard,setShowDetailsCard]=useState([])
 	const dates=document.filter((level0)=>level0).map((level1)=>{return level1.sameDay})
-	const days=document.filter((level0)=>level0).map((level1)=>{return level1.day})
-	const ids=days.map((e)=>{})
 	
+	const days=document.filter((level0)=>level0).map((level1)=>{return level1.day})
 	const lengthOfEachExercies=days.map((len)=>len.length)
+	const dayTimes=days.filter((d)=>d).map((x)=>{return x.map((x2)=>{return x2.dayTime})});
+	const dayTimeLength=days.filter((d)=>d).map((x)=>{return x.map((x2)=>{return x2.time.length})});
+	console.log("dayTimeLength",dayTimeLength);
+	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi dayTimes={dayTimes[ind]} dayTimeLength={dayTimeLength[ind]} date={dates[ind]}  dayId={ind} onView={onView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
+	// const lengthOfEachExercies=days.map((len)=>len.length)
 	
 	
 	const onView=(e)=>{
-		// const sameDay=(t)=>{
-			
-		// 	if(e.target.value===t)return t;
 		
-		// }
 		lastView.push(e);
-		setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
+		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} nutrition={x.nutrition} id={x.sameNutrition} key={x.sameExercise+Math.random()} />}))
 		
 		setView(true);
 		
 		
-		//location[location.length-1]==="view-all-exercise" &&
+		
 
 	}
 
 	const onDelete=(e)=>{
 		const varr=dates[e.target.value].replace("-","").replace("-","");
 	
-		if(deleteDayE(varr))
+		if(deleteDayN(varr))
 		{
 			showCards.splice(e.target.value,1)
 			
@@ -53,18 +54,18 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 		}
 	}
 
-	const onDeleteFromDay=(e)=>{
-		const ind=parseInt(lastView[lastView.length-1])
-		const varr=dates[parseInt(lastView[lastView.length-1])].replace("-","").replace("-","");
-		if(deleteFromDayE(days[ind][e].sameExercise,varr)){
+	// const onDeleteFromDay=(e)=>{
+	// 	const ind=parseInt(lastView[lastView.length-1])
+	// 	const varr=dates[parseInt(lastView[lastView.length-1])].replace("-","").replace("-","");
+	// 	if(deleteFromDayE(days[ind][e].sameExercise,varr)){
 			
 			
-			days[ind].splice(e,1);
-			//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
-			Router.push("/schedules/listcards");
-		}
+	// 		days[ind].splice(e,1);
+	// 		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
+	// 		Router.push("/schedules/listcards");
+	// 	}
 		
-		}
+	// 	}
 	const onBack=()=>{
 		if(view===true) setView(false);
 		else
@@ -77,7 +78,7 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 	
 
 	
-	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi date={dates[ind]}  dayId={ind} onView={onView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
+	
 
 
     return (<div>
@@ -89,16 +90,16 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
         </Head>
         
         <div className="container-fluid">
-		<div>
+		{/* <div>
 				<button type="button" onClick={onBack} className="btn btn-primary" style={{padding:"1%"}}>Back</button>
-			</div>
+			</div> */}
         <div className="row">
 			
 			
       
 	
 	{!view &&showCards}
-	{view && showDetailsCard}
+	{/* {view && showDetailsCard} */}
         </div>
         
 

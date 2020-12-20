@@ -152,17 +152,13 @@ export class ExerciseSchedule {
   }
   public async deleteScheduleObject(
     scheduleId: String,
-    body: any,
     currentUserId: String,
-    exerciseId: String
+    exerciseId: String,
+    date:string
   ) {
     try {
       const schedule = await exerciseScheduleModel.findById(scheduleId);
-
-      const dayR = body.document[0].sameDay;
-      //console.log(req.params.exerciseId);
-      const document = schedule!.document;
-
+      
       if (!schedule) {
         return "not-found";
       }
@@ -170,28 +166,38 @@ export class ExerciseSchedule {
       if (currentUserId !== schedule!.userId) {
         return "required-authorization";
       }
-      let index: number = this.findSameDay(document, dayR);
-      if (index === -1) {
-        return "not-same-day";
+      let index: number=0;
+      for (var i = 0; i < schedule!.document.length; i++) {
+        
+        if (schedule.document[i].sameDay === date) {
+          index = i;
+          break;
+        }
+        
       }
-      let index2: number = -1;
-      const len = document[index].day.length;
-      if (index >= 0) {
-        index2 = this.findSameExercise(document, index, exerciseId);
-
-        if (index2 >= 0) {
-          schedule.document[index].day.splice(index2, 1);
-          if (len <= 1) {
+     // console.log("start finding");
+      for (var j = 0; j < schedule.document[index].day.length; j++) {
+        if (schedule.document[index].day[j].sameExercise === exerciseId) {
+        
+          schedule.document[index].day.splice(j, 1);
+     
+       
+          if (!schedule.document[index].day.length) {
+           
             schedule.document.splice(index, 1);
-            //console.log("running inside");
+
           }
-          //console.log("running outside");
-        } else {
-          return "exerciseId-notFound";
+          
+          //console.log("found");
+          await schedule.save();
+          return true;
         }
       }
-      await schedule.save();
-      return true;
+      //console.log("not found");
+      
+        return "exerciseId-notFound";
+        
+      
     } catch (err) {
       console.log("updating Object", err);
       return null;
@@ -206,7 +212,7 @@ export class ExerciseSchedule {
   }
   public async deleteDay(id: string,day:string)
   {
-    console.log(day)
+    //console.log(day)
     const schedule = await exerciseScheduleModel.findById(id);
     if (schedule) {
      
@@ -214,10 +220,10 @@ export class ExerciseSchedule {
         
         if (schedule.document[i].sameDay === day) {
           const index = i
-          console.log(index);
+          //console.log(index);
           schedule.document.splice(index, 1);
           await schedule.save();
-          console.log(schedule);
+         // console.log(schedule);
           return true;
           
         }

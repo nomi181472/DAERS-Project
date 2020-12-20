@@ -7,12 +7,12 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("connected to nutritionSchedule Reminder mongodb");
+    console.log("connected to exerciseSchedule Reminder mongodb");
   } catch (err) {
     console.log(err);
   }
-  app.listen(3032, () => {
-    console.log("nutritionReminder Listening on port 3022");
+  app.listen(3022, () => {
+    console.log("exercise Listening on port 3022");
   });
 };
 start();

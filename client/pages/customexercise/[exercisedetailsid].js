@@ -2,7 +2,8 @@
 import Router  from "next/router";
 import { useState } from "react";
 import useRequest from "../../hooks/use-request";
-const exerciseDetails=({ex})=>{
+import fetch from "isomorphic-unfetch"
+const exerciseDetails=({ex,scheduleId})=>{
     //console.log(ex);
     //card-img-top
 
@@ -34,17 +35,37 @@ const exerciseDetails=({ex})=>{
             day:day
             
           }];
+          let url,method;
+            if(scheduleId)
+            {
+              url="http://localhost:3021/api-gateway/current-user/schedulee/5fd5b3751ef22a3528367d89"
+              method="put"
+              
+            }
+            else
+            {
+              
+              url="http://localhost:3021/api-gateway/current-user/exerciseschedule"
+              method="post" 
+            }
+
            const {doRequest,errors}=useRequest({
-             url:"http://localhost:3021/api-gateway/current-user/schedulee/5fd5b3751ef22a3528367d89",
-            method:"put",
+             url:url,
+            method:method,
             body:{
               document:document
             },
             onSuccess:()=>console.log('temp'),
           })
-      const onClick=()=>{
+      const onClick=async()=>{
+        
         doRequest()
-        //console.log(document);
+        
+        if(!scheduleId)
+        {
+           Router.push("/schedules/listcards")
+        }
+       
       
       }
       const cancelMe=()=>{
@@ -157,31 +178,37 @@ const exerciseDetails=({ex})=>{
 
 }
 exerciseDetails.getInitialProps=async(context,client,{currentUser})=>{
-  //console.log("runned",currentUser);
   
+  let scheduleId;
+  if(context.asPath[context.asPath.length-1]==="?")
+  {
+    scheduleId=""
+  }
+  else{
+    scheduleId=context.asPath.substring(context.asPath.length-24,context.asPath.length-1)
+  }
    const {exercisedetailsid}=context.query;
-   //console.log(exercisedetailsid)
-  // console.log("ExerciseId server side");
+   
+  
   if(currentUser){
   if( typeof window ==="undefined"){
-    console.log("exercise detail id server")
-    //console.log( context.req.headers)
- //client.defaults.baseURL=`http://localhost:3020/api-gateway/current-user/exercise/${exercisedetailsid}`
- const response=await fetch(`http://localhost:3020/api-gateway/current-user/exercise/${exercisedetailsid}`,{headers: context.req.headers});
- //console.log("response",response);
+    
+   
+    const response=await fetch(`http://localhost:3020/api-gateway/current-user/exercise/${exercisedetailsid}`,{headers: context.req.headers});
+
  client.defaults.baseURL= "http://localhost:3010/api-gateway/current-user/"
    const ex=await response.json()
-  console.log(ex);
-   return {ex:ex};
+ 
+   return {ex:ex,scheduleId:scheduleId};
   }
    else
   {
-    console.log("exercise detail id clientSide")
+    
     const res = await fetch(`http://localhost:3020/api-gateway/current-user/exercise/${exercisedetailsid}`,{ credentials: 'include'})
     const ex = await res.json()
-    return {ex:ex};
+    return {ex:ex,scheduleId:scheduleId};
   }}
-  return {ex:null};;
+  return {ex:null,scheduleId:null};;
   
 
 }

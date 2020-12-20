@@ -36,7 +36,7 @@ export default ({ currentUser }) => {
   
     currentUser && {
       label: "Schedules",
-      href: "/schedules/list",
+      href: "/schedules/listcards",
     },
     currentUser && {
       label: "Exercise",

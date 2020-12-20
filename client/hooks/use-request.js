@@ -2,7 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 export default ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
-  const doRequest = async () => {
+  const doRequest = async (bmi) => {
+    if (bmi){
+      body.bmi=bmi;
+    }
     try {
       setErrors(null);
       const response = await axios[method](url, body, {
@@ -16,6 +19,7 @@ export default ({ url, method, body, onSuccess }) => {
        
       }
     } catch (err) {
+      console.log(err);
       setErrors(
         <div className="alert alert-danger">
           <h4>Ooops...</h4>

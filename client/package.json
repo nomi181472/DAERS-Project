@@ -10,13 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "d3": "^6.3.1",
     "isomorphic-unfetch": "^3.1.0",
     "next": "^10.0.3",
     "nprogress": "^0.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-dropzone": "^11.2.4"
+    "react-dropzone": "^11.2.4",
+    "react-icons": "^4.1.0",
+    "react-minimal-pie-chart": "^8.1.0"
   }
 }

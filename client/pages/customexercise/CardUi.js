@@ -8,7 +8,10 @@ const CardUi=({date,weekday,len,onView,onDelete,dayId})=>{
 	const when=tTime<today?"Ended At:":"Starts At:";
 	var d = new Date(date);
   
-	console.log(dayId);
+	
+	const onViewTo=(e)=>{
+		onView(e.target.value)
+	}
     return(
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" style={{"marginTop":"20px","marginLeft":"1px"}}>
         <div className="tile">
@@ -45,7 +48,7 @@ const CardUi=({date,weekday,len,onView,onDelete,dayId})=>{
 
                         
                         <div className="footer">
-                        <button  onClick={onView} value={date} className="btn btn-primary" style={{padding:"4%"}}>View</button>
+                        <button  onClick={onViewTo} value={dayId} className="btn btn-primary" style={{padding:"4%"}}>View</button>
 						<button  onClick={onDelete} value={dayId} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
                      
                         </div>

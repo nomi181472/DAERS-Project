@@ -3,12 +3,10 @@ import axios from "axios";
 import Router  from "next/router";
 import fetch from "isomorphic-unfetch";
 import ListEachDay from "./list-each-day";
-const list= ({data,currentUser})=>{
- //   console.log(data);
-   // console.log("running");
-    //console.log(currentUser);
-let exerciseList;
+const list= ({data,scheduleId})=>{
 
+let exerciseList;
+console.log("scheduleId",scheduleId)
 
 
 console.log(data);
@@ -27,7 +25,7 @@ exerciseList=data.nutrition.map(n=>{
       <td>{n.photos.mainPhoto}</td>
       <td></td>
       <td>
-       <Link href="/customnutrition/[scheduledetailedid]" as={`/customnutrition/${n.id}`}>
+       <Link href="/customnutrition/[scheduledetailedid]" as={`/customnutrition/${n.id}/?${scheduleId}`}>
    <a className="btn btn-primary  active form-group" role="button" aria-pressed="true">add</a>
        </Link>
       </td>
@@ -80,7 +78,7 @@ exerciseList=data.nutrition.map(n=>{
   <div>
     </div>
     <div>
-      <ListEachDay pass="pass"/>
+      <ListEachDay pass=""/>
     </div>
  
 </div>
@@ -91,22 +89,23 @@ exerciseList=data.nutrition.map(n=>{
 }
 
 list.getInitialProps=async (context,client,currentUser)=>{
-
+  const {scheduleId}=context.query
 if(currentUser)
     if(typeof window==="undefined"){
       console.log(context.req.headers)
       console.log("server side")
       const response=await fetch("http://localhost:3030/api-gateway/current-user/nutritionFact",{credentials:"include",headers: context.req.headers})
       const data=await response.json()
-      return {data};
+      return {data,scheduleId};
     }
     
     else{
      
         const response=await fetch("http://localhost:3030/api-gateway/current-user/nutritionFact",{credentials:"include"})
         const data=await response.json()
-        return {data};
+        return {data,scheduleId};
     }
+    return null
 
 
 }

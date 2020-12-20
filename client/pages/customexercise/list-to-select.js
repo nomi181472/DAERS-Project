@@ -1,7 +1,7 @@
 import Link from "next/link";
-const listExercise=({data})=>{
-    console.log(data);
-    console.log("running");
+const listExercise=({data,scheduleId})=>{
+    //console.log(data);
+    
 let exerciseList;
 if(data){
 exerciseList=data.exercise.map(ex=>{
@@ -17,7 +17,7 @@ exerciseList=data.exercise.map(ex=>{
       <td>{ex.photos.mainPhoto}</td>
 
       <td>
-       <Link  href="/customexercise/[exercisedetailsId]" as={`/customexercise/${ex.id}`}>
+       <Link  href="/customexercise/[exercisedetailsId]" as={`/customexercise/${ex.id}/?${scheduleId}`}>
    <a className="btn btn-primary  active form-group">add</a>
        </Link>
       </td>
@@ -68,8 +68,7 @@ exerciseList=data.exercise.map(ex=>{
 }
 
 listExercise.getInitialProps=async (context,client,currentUser)=>{
-//console.log("exercise/list",currentUser);
-//here is admin
+ const {scheduleId}=context.query
 if(currentUser)
     if(typeof window==="undefined"){
       
@@ -78,14 +77,14 @@ if(currentUser)
        // console.log(context.req.headers);
       const {data}=await client.get("",{headers: context.req.headers,});
       client.defaults.baseURL= "http://localhost:3010/api-gateway/current-user/";
-      return {data};
+      return {data,scheduleId};
     }
     
     else{
         const response=await fetch("http://localhost:3020/api-gateway/current-user/exercise",{credentials:"include"})
         const data=await response.json()
         //console.log("response",data);
-        return {data};
+        return {data,scheduleId};
     }
 
 

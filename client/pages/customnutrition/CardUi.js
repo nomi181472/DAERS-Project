@@ -1,54 +1,102 @@
-import HrLine from "./HrLine";
-const CardDetails=({exercise,id,index,onDeleteFromDay})=>{
+
+import {useState} from "react"
+const CardUi=({date,weekday,len,onView,onDelete,dayId,dayTimes,dayTimeLength})=>{
 	
-	const photos=exercise.photos.length?exercise.photos[0]:"http://via.placeholder.com/640x360";
+	var t = new Date(date);
+	var today=new Date().getTime();
+	var tTime=t.getTime();
+	// const [m,setM]=useState("")
+	// const [l,setl]=useState("")
+	// const [dd,setdd]=useState("")
+	// const [mle,setMle]=useState("")
+	// const [lle,setlle]=useState("")
+	// const [ddle,setddle]=useState("")
+	// for(var i=0;i<dayTimes.length;i++)
+	// {
+	// 	if(dayTimes[i]==="monring")
+	// 	{
+	// 		setM("monring")
+	// 		setMle(dayTimeLength[i])
+	// 	}
+	// 	if(dayTimes[i]==="lunch")
+	// 	{
+	// 		setl("lunch")
+	// 		setlle(dayTimeLength[i])
+	// 	}
+	// 	if(dayTimes[i]==="dinner")
+	// 	{
+	// 		setdd("dinner")
+	// 		setddle(dayTimeLength[i])
+	// 	}
+	// }
+	console.log("dayTimes",dayTimes)
+	console.log("dayTimeLength",dayTimeLength)
 
-const description =exercise.description.map((e)=>{return e+" "})
-const reps=exercise.reps.map((e)=>{return e+"  "})
-const onDelete=(e)=>{
-	//console.log()
-	onDeleteFromDay(e.target.value)
-}
+	
+	const when=tTime<today?"Ended At:":"Starts At:";
+	var d = new Date(date);
+  
+	
+	const onViewTo=(e)=>{
+		console.log(e.target.value)
+		onView(e.target.value)
+	}
+
+
     return(
-
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" style={{"marginTop":"20px","marginLeft":"1px"}}>
         <div className="tile">
                     <div className="wrapper">
-	<div className="header font-weight-bold" style={{color:"black"}}>{exercise.exerciseName}</div>
-
-                        <div className="banner-img">
-                            <img src={photos} alt={"ImageFor"+exercise.exerciseName }/>
-                        </div>
+                        
 
                         <div className="dates">
-                            <div className="start font-weight-bold" style={{color:"black"}}>
-                                Your Note:
+                            <div className="start">
+	<strong style={{color:"black"}}>{when}</strong> 
                                 <span></span>
                             </div>
-                            <div className="ends 1" style={{color:"black",hover:{backgroundColor:"white"}}}>
-                                <strong style={{color:"black"}}></strong> {description}
+                            <div className="start">
+	<strong style={{color:"black"}}>{d.getDate()} { weekday[d.getDay()]} {d.getFullYear()}</strong>
                             </div>
                         </div>
 
                         <div className="stats">
 
-                            <div  className="font-weight-bold"style={{color:"black"}}>
-                                <strong style={{color:"black"}}>Sets</strong> {exercise.sets}
+                            <div>
+                                <strong style={{color:"black"}}>Today Nutrition</strong> {len}
                             </div>
 
-                            <div className="font-weight-bold" style={{color:"black"}}>
-                                <strong style={{color:"black"}}>Reps</strong> {reps}
+                            <div>
+							<strong style={{color:"black"}}>Done</strong> 0
                             </div>
 
-                           
+                            <div>
+							<strong style={{color:"black"}}>Left</strong> 0
+                            </div>
+
+                        </div>
+<div className="stats">
+
+                            <div>
+	<strong style={{color:"black"}}>{dayTimes.length&&dayTimes[0]}</strong> {dayTimeLength.length&&dayTimeLength[0]}
+                            </div>
+
+                            <div>
+							<strong style={{color:"black"}}>{dayTimes.length>=1&&dayTimes[1]}  </strong> {dayTimeLength.length>=1&&dayTimeLength[1]}
+                            </div>
+
+                            <div>
+								<strong style={{color:"black"}}>{dayTimes.length>=3&&dayTimes[2]} </strong>{dayTimeLength.length>=2&&dayTimeLength[2]}
+                            </div>
 
                         </div>
 
-                        
+                      
 
+                        
                         <div className="footer">
-						{/* <button   value={id} className="btn btn-primary" style={{padding:"4%"}}>Edit</button> */}
-						<button  onClick={onDelete} value={index} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+                        <button  onClick={onViewTo} value={dayId} className="btn btn-primary" style={{padding:"4%"}}>View</button>
+						<button  onClick={onDelete} value={dayId} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+                     
                         </div>
                     </div>
 					
@@ -185,4 +233,4 @@ div.footer a.Cbtn-danger:hover{
     )
 }
 
-export default CardDetails
+export default CardUi

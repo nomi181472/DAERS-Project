@@ -1,10 +1,18 @@
 import  Router  from "next/router";
 import {useState} from "react";
 
-const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule})=>{
+const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule,createSchedule,createScheduleNf})=>{
   const isExerciseSchedule=schedulee?true:false;
   const isDietSchedule=schedulenf?true:false;
-
+  
+  const onCreate=()=>{
+   // console.log("clickme")
+    createSchedule()
+  }
+  const onCreateNf=()=>{
+    console.log("clickme")
+    createScheduleNf()
+  }
     return(<div>
         <div className="flex justify-center" style={{margin:"5%"}}>
         <div className="mx-auto card bg-light">
@@ -20,7 +28,7 @@ const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule})=>{
             <div className="card-body">
             <h5 className="card-title">Create Exercise Schedule</h5>
   <p className="card-text"> You can create your Exercise schedule here..</p>
-  <button className="btn btn-primary">Create Schedule</button>
+  <button onClick={onCreate} className="btn btn-primary">Create Schedule</button>
           </div>
 
             }
@@ -36,7 +44,7 @@ const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule})=>{
             { !isDietSchedule&&<div className="card-body">
               <h5 className="card-title">Create Diet Schedule</h5>
               <p className="card-text">You can create Diet schedule here..</p>
-              <button className="btn btn-primary">Create Schedule</button>
+              <button onClick={onCreateNf} className="btn btn-primary">Create Schedule</button>
             </div>}
           </div>
        </div>

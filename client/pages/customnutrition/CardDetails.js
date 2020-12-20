@@ -1,7 +1,7 @@
-import HrLine from "./HrLine";
-const CardDetails=({exercise,id,index,onDeleteFromDay})=>{
-	
-	const photos=exercise.photos.length?exercise.photos[0]:"http://via.placeholder.com/640x360";
+
+const CardDetails=({nutrition,id,index,onDeleteFromDay})=>{
+	console.log(nutrition)
+	const photos=nutrition.photos.length?exercise.photos[0]:"http://via.placeholder.com/640x360";
 
 const description =exercise.description.map((e)=>{return e+" "})
 const reps=exercise.reps.map((e)=>{return e+"  "})

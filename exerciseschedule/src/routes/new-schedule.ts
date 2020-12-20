@@ -39,7 +39,7 @@ router.post(
     if (!result) {
       throw new BadRequestError("unAble to create schedule");
     }
-    // let result = await exerciseScheduleModel.build({ document, userId });
+    console.log("got request")
 
     res.status(201).send({ result });
   }
