@@ -1,10 +1,16 @@
 import  Router  from "next/router";
 import {useState} from "react";
 
-const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule,createSchedule,createScheduleNf})=>{
+const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule,createSchedule,createScheduleNf,addMoreEx,addMoreNF})=>{
   const isExerciseSchedule=schedulee?true:false;
   const isDietSchedule=schedulenf?true:false;
-  
+  const onAddMoreEx=()=>{
+    addMoreEx()
+  }
+  const   onAddMoreNF=()=>{
+    addMoreNF()
+  }
+ 
   const onCreate=()=>{
    // console.log("clickme")
     createSchedule()
@@ -23,12 +29,15 @@ const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule,createSchedu
           <strong>    <h5 className="card-title">Exercise Schedule</h5></strong>
     <p className="card-text">Your total upcoming workouts: <strong>{schedulee[0].document.length}</strong></p>
     <button onClick={onExerciseSchedule} className="btn btn-primary">View Schedule</button>
+  <div className="card-body">  <button onClick={onAddMoreEx} className="btn btn-primary">Add More</button></div>
             </div>}
             {!isExerciseSchedule &&
             <div className="card-body">
             <h5 className="card-title">Create Exercise Schedule</h5>
   <p className="card-text"> You can create your Exercise schedule here..</p>
   <button onClick={onCreate} className="btn btn-primary">Create Schedule</button>
+  
+            
           </div>
 
             }
@@ -40,7 +49,10 @@ const Card=({schedulenf,schedulee,onDietSchedule,onExerciseSchedule,createSchedu
               <h5 className="card-title">Diet Schedule</h5>
               <p className="card-text">Your total upcoming workouts: <strong>{schedulenf[0].document.length}</strong></p>
               <button onClick={onDietSchedule} className="btn btn-primary">View Schedule</button>
-            </div>}
+              <div className="card-body">  <button onClick={onAddMoreNF} className="btn btn-primary">Add More</button></div>
+            </div>
+            
+            }
             { !isDietSchedule&&<div className="card-body">
               <h5 className="card-title">Create Diet Schedule</h5>
               <p className="card-text">You can create Diet schedule here..</p>

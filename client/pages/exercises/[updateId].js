@@ -1,5 +1,8 @@
 import Router from "next/router";
 import Link from "next/link";
+import axios from "axios"
+import styles from "./upload.module.css";
+import ImageUpload from "../../ui/Imageupload";
 import useRequest from "../../hooks/use-request";
 import {useState} from "react";
 const update=({data})=>{
@@ -15,7 +18,45 @@ const update=({data})=>{
     const [direction,setDirection]=useState(data.direction);
     const [forBack,setForBack]=useState("Cancel");
     const [disable,setDisable]=useState(false);
+    const [files, setFiles] = useState([]);
+    const [photosUrl,setPhotosUrl]=useState(data.photos.photosUrl);
+    const [mainPhoto,setMainPhoto]=useState(data.photos.mainPhoto);
     const [editOrConfirm,setEditOrConfirm]=useState("Confirm");
+    const upload = () => {
+      const uploadURL = 'https://api.cloudinary.com/v1_1/dhqfhpemf/image/upload';
+      const uploadPreset = 'vpxyox0m';
+   
+      files.forEach(async(file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+        try{
+       const res=await axios({
+          url: uploadURL,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          data: formData
+        })
+        setPhotosUrl([...photosUrl,res.data.url])
+        setMainPhoto(res.data.url);
+        console.log(res.data.url);
+      }
+      catch(err){
+        
+         console.log(err)
+      }
+        
+      })
+    }
+   
+
+    const onDrop = (acceptedFiles) => {
+      setFiles(acceptedFiles.map(file => Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      })));
+    }
      const {doRequest,errors}=useRequest({
        url:`http://localhost:3020/api-gateway/current-user/exercise/${data.id}`,
       method:"put",
@@ -27,7 +68,10 @@ const update=({data})=>{
        joint,
        direction,
        modality,
-       photos:data.photos
+       photos:{
+        photosUrl:photosUrl,
+        mainPhoto:mainPhoto
+       }
       },
       onSuccess:()=>console.log('successFull'),
     })
@@ -131,6 +175,15 @@ return (
 </div>
 </div>
 </div>
+<div className="card-body" style={{width:400}}>
+<div className={styles.App} >
+      <ImageUpload files={files} onDrop={onDrop}/>
+      <button onClick={upload}>Upload</button>
+      
+     
+      
+    </div>
+    </div>
 </div>
 
 </div>

@@ -21,8 +21,9 @@ exerciseList=data.nutrition.map(n=>{
       <td>{n.carbohydrates}</td>
       <td>{n.protein}</td>
       <td>{n.calories}</td>
+      <td><img src={n.photos.mainPhoto} className="img-fluid img-thumbnail rounded" alt={"Image: "+n.nutritionName} layout="responsive" width={300}
+        height={300} /></td>
       
-      <td>{n.photos.mainPhoto}</td>
       <td></td>
       <td>
        <Link href="/customnutrition/[scheduledetailedid]" as={`/customnutrition/${n.id}/?${scheduleId}`}>
@@ -77,9 +78,7 @@ exerciseList=data.nutrition.map(n=>{
   </div>
   <div>
     </div>
-    <div>
-      <ListEachDay pass=""/>
-    </div>
+   
  
 </div>
 

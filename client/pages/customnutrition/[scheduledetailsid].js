@@ -15,7 +15,7 @@ import fetch from "isomorphic-unfetch";
 const nutritionDetails=({nf})=>{
 if(nf )
   {
-	var scheduleId="";
+	
 	
 	var date = new Date();
 	
@@ -24,6 +24,7 @@ if(nf )
 	 const [fats,setFats]=useState(nf.fats);
 	 const [url,setUrl]=useState("");
 	 const [method,setMethod]=useState("");
+	 const [scheduleId,setScheduleId]=useState("");
     const [carbohydrates,setCarbohydrates]=useState(nf.carbohydrates);
     const [photos,setPhotos]=useState(nf.photos.mainPhoto);
     const [protein,setProtein]=useState(nf.protein);
@@ -70,14 +71,16 @@ if(nf )
 	const setSchedule=async()=>{
 		const resnf=await fetch("http://localhost:3031/api-gateway/current-user/schedulenf-user/getschedule",{credentials:"include"})
 		const data=await resnf.json();
-		
-		if(data.length)
-	{	scheduleId=data.schedulenf[0].id}
+		console.log('data',data.schedulenf.length);
+		if(data.schedulenf.length)
+	{	
+		setScheduleId(data.schedulenf[0].id)
+	}
 
 		if(scheduleId)
 		{
-		
-		  setUrl("localhost:3031/api-gateway/current-user/schedulenf/5fd1fbb809ffdc29b06920ed")
+			console.log("inisde")
+		  setUrl("http://localhost:3031/api-gateway/current-user/schedulenf/"+data.schedulenf[0].id)
 		  setMethod("put")
 		  
 		}
@@ -106,7 +109,11 @@ if(nf )
   if(!scheduleId)
         {
            Router.push("/schedules/listcards")
-        }
+		}
+		else
+		{
+			Router.push("/customnutrition/list-to-select")
+		}
 
 }
 const cancelMe=()=>{

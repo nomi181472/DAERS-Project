@@ -3,7 +3,7 @@ import Router  from "next/router";
 import { useState } from "react";
 import useRequest from "../../hooks/use-request";
 import fetch from "isomorphic-unfetch"
-const exerciseDetails=({ex,scheduleId})=>{
+const exerciseDetails=({ex})=>{
     //console.log(ex);
     //card-img-top
 
@@ -14,7 +14,9 @@ const exerciseDetails=({ex,scheduleId})=>{
            const [sets, setSets] = useState(0);
            const [reps, setReps] = useState([]);
            const [discription,setDiscription]=useState([]);
-          
+           const [url,setUrl]=useState("");
+           const [method,setMethod]=useState("");
+           const [scheduleId,setScheduleId]=useState("");
          
           const exercise={
             exerciseName:ex.exerciseName,
@@ -35,20 +37,32 @@ const exerciseDetails=({ex,scheduleId})=>{
             day:day
             
           }];
-          let url,method;
+          const setSchedule=async()=>{
+            const resnf=await fetch("http://localhost:3021/api-gateway/current-user/schedulee-user/getschedule",{credentials:"include"})
+            const data=await resnf.json();
+           // console.log('data',data.schedulee.length);
+            if(data.schedulee.length &&data.schedulee[0].id)
+            {	
+              setScheduleId(data.schedulee[0].id)
+            }
             if(scheduleId)
             {
-              url="http://localhost:3021/api-gateway/current-user/schedulee/5fd5b3751ef22a3528367d89"
-              method="put"
+              
+              
+              setUrl("http://localhost:3021/api-gateway/current-user/schedulee/"+scheduleId)
+              setMethod("put")
               
             }
             else
             {
               
-              url="http://localhost:3021/api-gateway/current-user/exerciseschedule"
-              method="post" 
+              setUrl("http://localhost:3021/api-gateway/current-user/exerciseschedule")
+              setMethod("post")
+             
             }
-
+          }
+          setSchedule();
+         
            const {doRequest,errors}=useRequest({
              url:url,
             method:method,
@@ -64,6 +78,10 @@ const exerciseDetails=({ex,scheduleId})=>{
         if(!scheduleId)
         {
            Router.push("/schedules/listcards")
+        }
+        else
+        {
+          Router.push("/customexercise/list-to-select")
         }
        
       

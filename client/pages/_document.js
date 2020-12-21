@@ -21,7 +21,7 @@ export default class MyDocument extends Document{
             {`
             body{
                 margin:0;
-                 
+                
             }
             `}
                 </style>

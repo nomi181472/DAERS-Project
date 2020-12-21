@@ -14,7 +14,9 @@ exerciseList=data.exercise.map(ex=>{
       <td>{ex.joint}</td>
       <td>{ex.type}</td>
       <td>{ex.direction}</td>
-      <td>{ex.photos.mainPhoto}</td>
+      <td><img src={ex.photos.mainPhoto} className="img-fluid img-thumbnail rounded" alt={"Image: "+ex.exerciseName} layout="responsive" width={300}
+        height={300} /></td>
+  
 
       <td>
        <Link  href="/customexercise/[exercisedetailsId]" as={`/customexercise/${ex.id}/?${scheduleId}`}>
@@ -25,7 +27,7 @@ exerciseList=data.exercise.map(ex=>{
   )
 });
  return (<div>
-   <h1>Exercies</h1>
+   <h1>Exercises</h1>
    <table className="table">
      <thead>
        <tr>

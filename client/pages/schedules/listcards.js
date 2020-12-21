@@ -6,9 +6,12 @@ import ScheduleeList from "../customexercise/scheduleeList";
 import ListToSelect from "../customexercise/list-to-select";
 import SchedulenfList from "../customnutrition/schedulenfList";
 import {useState} from "react";
-const list=({schedulenf,schedulee})=>{
+const list=({schedulenf,schedulee},currentUser) =>{
+    console.log("currentUser",currentUser)
+   
    let scheduleIdE="",scheduleIdNF="";
-   console.log()
+  
+   
     if(!schedulenf.length)
     {
         
@@ -83,6 +86,13 @@ const deleteDayN=async(date)=>{
     }
 
 }
+const addMoreEx=()=>{
+    Router.push("/customexercise/list-to-select")
+}
+const addMoreNF=()=>{
+    Router.push("/customnutrition/list-to-select")
+}
+
 const deleteFromDayE=async(exid,data)=>{
     //console.log(exid,data);
     try{
@@ -98,14 +108,18 @@ const deleteFromDayE=async(exid,data)=>{
     return(
         <div>
 
-{!viewExerciseSchedule&&!viewNutritionSchedule&&(<Card createSchedule={createSchedule} createScheduleNf={createScheduleNf} schedulenf={schedulenf} schedulee={schedulee} onExerciseSchedule={onExerciseSchedule} onDietSchedule={onDietSchedule} />)}
+{!viewExerciseSchedule&&!viewNutritionSchedule&&(<Card addMoreEx={addMoreEx} addMoreNF={addMoreNF} createSchedule={createSchedule} createScheduleNf={createScheduleNf} schedulenf={schedulenf} schedulee={schedulee} onExerciseSchedule={onExerciseSchedule} onDietSchedule={onDietSchedule} />)}
         {viewExerciseSchedule  &&(<ScheduleeList deleteDayE={deleteDayE}  deleteFromDayE={deleteFromDayE} onExerciseSchedule={onExerciseSchedule} schedulee={schedulee} />)  }
         {viewNutritionSchedule  &&(<SchedulenfList deleteDayN={deleteDayN}   onDietSchedule={onDietSchedule} schedulenf={schedulenf} />)  }
         </div>
 
     )
 }
-list.getInitialProps=async(context)=>{
+
+
+list.getInitialProps=async(context,client,currentUser)=>{
+   // console.log("currentUser,",currentUser.errors.length)
+   
     if(typeof window==="undefined")
     {
        
@@ -115,7 +129,7 @@ list.getInitialProps=async(context)=>{
         
         const {schedulenf}=await resnf.json()
         const {schedulee}=await rese.json()
-        
+        console.log("schedule",resnf)
         return {schedulenf:schedulenf,schedulee:schedulee}
         
     }
@@ -128,6 +142,7 @@ list.getInitialProps=async(context)=>{
         
         return {schedulenf:schedulenf,schedulee:schedulee}
     }
+
    
 }
 
