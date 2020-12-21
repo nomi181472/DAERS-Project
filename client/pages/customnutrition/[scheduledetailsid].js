@@ -229,6 +229,18 @@ useEffect(() => {
 							  </div>
   
 						  </div>
+						  <div className="stats">
+  
+ 
+  <div >
+	  <strong style={{fontSize:"110%"}}>Date</strong> 
+  </div>
+ 
+  <div>
+	  <strong style={{fontSize:"110%"}}><input value={sameDay} className="form-control" type="date"onChange={(e)=>{setSameDay(e.target.value)}} /></strong> 
+  </div>
+
+</div>
 			 
 		<div className="d-flex justify-content-center" >				  
     <div className="App">
