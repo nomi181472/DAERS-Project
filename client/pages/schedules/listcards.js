@@ -50,12 +50,12 @@ const onDietSchedule=()=>{
     setViewNutritionSchedule(false);
     else setViewNutritionSchedule(true)
     
-  console.log("click me");
+  
  
 }
 const deleteDayE=async(date)=>{
-    console.log(date);
-    console.log();
+   // console.log(date);
+  //  console.log();
     let data;
     try{
     const res =await axios.delete(`http://localhost:3021/api-gateway/current-user/schedulee/day/${schedulee[0].id}/${date}`,{withCredentials:"include"})

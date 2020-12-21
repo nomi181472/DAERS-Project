@@ -1,12 +1,13 @@
 
 import {useState} from "react"
-const CardUi=({date,weekday,len,EnableCardUIView,onDelete,dayId,dayTimes,dayTimeLength})=>{
-	
+const CardUi=({date,EnableCardDetailView,onDelete,dayId,time,length,value})=>{
+    
+    
 	var t = new Date(date);
 	var today=new Date().getTime();
 	var tTime=t.getTime();
 	
-
+	
 
 	
 	const when=tTime<today?"Ended At:":"Starts At:";
@@ -14,9 +15,8 @@ const CardUi=({date,weekday,len,EnableCardUIView,onDelete,dayId,dayTimes,dayTime
   
 	
 	const onViewTo=(e)=>{
-	
 		
-		EnableCardUIView(e.target.value)
+		EnableCardDetailView(e.target.value,value)
 	}
 
 
@@ -24,21 +24,18 @@ const CardUi=({date,weekday,len,EnableCardUIView,onDelete,dayId,dayTimes,dayTime
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" style={{"marginTop":"20px","marginLeft":"1px"}}>
         <div className="tile">
                     <div className="wrapper">
-					
-                        <div className="dates">
-                            <div className="start">
-	<strong style={{color:"black"}}>{when}</strong> 
-                                <span></span>
-                            </div>
-                            <div className="start">
-	<strong style={{color:"black"}}>{d.getDate()} { weekday[d.getDay()]} {d.getFullYear()}</strong>
-                            </div>
-                        </div>
+                      
+                       <div className="d-flex justify-content-center" >
+   <div align="center">  {time.split(' ')
+   .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+   .join(' ')}</div>
+</div>
+                       
 
                         <div className="stats">
 
                             <div>
-                                <strong style={{color:"black"}}>Today Nutrition</strong> {len}
+                                <strong style={{color:"black"}}>Today Nutrition</strong> {length}
                             </div>
 
                             <div>
@@ -50,28 +47,10 @@ const CardUi=({date,weekday,len,EnableCardUIView,onDelete,dayId,dayTimes,dayTime
                             </div>
 
                         </div>
-<div className="stats">
-
-                            <div>
-	<strong style={{color:"black"}}>{dayTimes.length&&dayTimes[0]}</strong> {dayTimeLength.length&&dayTimeLength[0]}
-                            </div>
-
-                            <div>
-							<strong style={{color:"black"}}>{dayTimes.length>=1&&dayTimes[1]}  </strong> {dayTimeLength.length>=1&&dayTimeLength[1]}
-                            </div>
-
-                            <div>
-								<strong style={{color:"black"}}>{dayTimes.length>=3&&dayTimes[2]} </strong>{dayTimeLength.length>=2&&dayTimeLength[2]}
-                            </div>
-
-                        </div>
-
-                      
-
-                        
+  
                         <div className="footer">
-                        <button  onClick={onViewTo} value={dayId} className="btn btn-primary" style={{padding:"4%"}}>View</button>
-						<button  onClick={onDelete} value={dayId} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+                        <button  onClick={onViewTo} value={time} className="btn btn-primary" style={{padding:"4%"}}>View</button>
+						<button  onClick={onDelete} value={time} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
                      
                         </div>
                     </div>

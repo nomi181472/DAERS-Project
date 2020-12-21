@@ -9,6 +9,7 @@ import { errorHandler } from "./middlewares/error-handler";
 import { UnknownRouteError } from "./errors/unknown-Route-error";
 import { currentUser } from "./middlewares/current-user";
 import { sortRouter } from "./routes/sort";
+import { countRouter } from "./routes/count";
 
 //const route=require("./routing-policy");
 //import axios from "axios";
@@ -28,7 +29,7 @@ app.set("trust proxy", true);
 app.use(cookieSession({ signed: false, httpOnly: false }));
 app.use(currentUser);
 app.use(sortRouter);
-
+app.use(countRouter);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });

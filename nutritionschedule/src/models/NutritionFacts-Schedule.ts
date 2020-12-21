@@ -63,10 +63,13 @@ export class NutritionFactsSchedule {
 
       if (index >= 0) {
         const dayTime = body.document[0].day[0].dayTime;
+        
         let index2: number = this.findSameTime(document[index].day, dayTime);
 
         if (index2 >= 0) {
-          document[index].day[index2].time.push(body.document[0].day[0]);
+          
+          document[index].day[index2].time.push(body.document[0].day[0].time[0]);
+          console.log(body.document[0].day[0].time[0]);
         } else {
           document[index].day.push(body.document[0].day[0]);
         }

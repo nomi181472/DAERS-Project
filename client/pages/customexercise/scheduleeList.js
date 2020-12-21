@@ -27,18 +27,14 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 	
 	
 	const onView=(e)=>{
-		// const sameDay=(t)=>{
-			
-		// 	if(e.target.value===t)return t;
 		
-		// }
 		lastView.push(e);
 		setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
 		
 		setView(true);
 		
 		
-		//location[location.length-1]==="view-all-exercise" &&
+	
 
 	}
 

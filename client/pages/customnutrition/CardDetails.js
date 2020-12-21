@@ -1,12 +1,16 @@
 
 const CardDetails=({nutrition,id,index,onDeleteFromDay})=>{
-	console.log(nutrition)
-	const photos=nutrition.photos.length?exercise.photos[0]:"http://via.placeholder.com/640x360";
-
-const description =exercise.description.map((e)=>{return e+" "})
-const reps=exercise.reps.map((e)=>{return e+"  "})
+	 console.log("nutrition",nutrition)
+	// console.log("id",id)
+	// console.log("index",index)
+	// console.log("onDeleteFromDay",onDeleteFromDay)
+	
+	const photos=nutrition.photos.length?nutrition.photos[0]:"http://via.placeholder.com/640x360";
+ console.log("photos",photos)
+const description =nutrition.description.map((e)=>{return e+" "})
+ //console.log("description",description)
 const onDelete=(e)=>{
-	//console.log()
+	
 	onDeleteFromDay(e.target.value)
 }
     return(
@@ -14,10 +18,10 @@ const onDelete=(e)=>{
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" style={{"marginTop":"20px","marginLeft":"1px"}}>
         <div className="tile">
                     <div className="wrapper">
-	<div className="header font-weight-bold" style={{color:"black"}}>{exercise.exerciseName}</div>
+	<div className="header font-weight-bold" style={{color:"black"}}>{nutrition.nutritionName}</div>
 
                         <div className="banner-img">
-                            <img src={photos} alt={"ImageFor"+exercise.exerciseName }/>
+                            <img src={photos} alt={"ImageFor"+nutrition.nutritionName }/>
                         </div>
 
                         <div className="dates">
@@ -29,20 +33,29 @@ const onDelete=(e)=>{
                                 <strong style={{color:"black"}}></strong> {description}
                             </div>
                         </div>
+						<div className="dates">
+                            <div className="start font-weight-bold" style={{color:"black"}}>
+                                 Calories
+                                <span></span>
+                            </div>
+                            <div className="ends 1" style={{color:"black",hover:{backgroundColor:"white"}}}>
+                                <strong style={{color:"black"}}>{nutrition.calories}</strong> 
+                            </div>
+                        </div>
 
                         <div className="stats">
-
                             <div  className="font-weight-bold"style={{color:"black"}}>
-                                <strong style={{color:"black"}}>Sets</strong> {exercise.sets}
-                            </div>
-
-                            <div className="font-weight-bold" style={{color:"black"}}>
-                                <strong style={{color:"black"}}>Reps</strong> {reps}
-                            </div>
-
-                           
-
+                                <strong style={{color:"black"}}>Fats</strong> {nutrition.fats}
+                            </div> 
+							<div className="font-weight-bold" style={{color:"black"}}>
+                                <strong style={{color:"black"}}>Protein</strong> {nutrition.protein}
+                            </div> 
+							<div className="font-weight-bold" style={{color:"black"}}>
+                                <strong style={{color:"black"}}>Carbohydrates</strong> {nutrition.carbohydrates}
+                            </div> 
                         </div>
+						
+						
 
                         
 

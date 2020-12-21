@@ -3,6 +3,7 @@ import CardUi from "./CardUi";
 import Router from "next/router";
 import axios from "axios"
 import CardDetails from "./CardDetails";
+import DayTimesCard from "./dayTimesCard";
 import {useState} from "react";
 const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
 	
@@ -16,32 +17,49 @@ const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
 	weekday[6] = "Saturday";
 	
 	const {document}=schedulenf[0];
-	console.log("document",document);
+console.log("document",document);
 	const [view,setView]=useState(false);
+	const [detailView,setDetailView]=useState(false);
 	const lastView=[];
 	const [showDetailsCard,setShowDetailsCard]=useState([])
+	const [showDayTimesCard,setShowDayTimesCard]=useState([])
 	const dates=document.filter((level0)=>level0).map((level1)=>{return level1.sameDay})
 	
 	const days=document.filter((level0)=>level0).map((level1)=>{return level1.day})
 	const lengthOfEachExercies=days.map((len)=>len.length)
 	const dayTimes=days.filter((d)=>d).map((x)=>{return x.map((x2)=>{return x2.dayTime})});
 	const dayTimeLength=days.filter((d)=>d).map((x)=>{return x.map((x2)=>{return x2.time.length})});
-	console.log("dayTimeLength",dayTimeLength);
-	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi dayTimes={dayTimes[ind]} dayTimeLength={dayTimeLength[ind]} date={dates[ind]}  dayId={ind} onView={onView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
-	// const lengthOfEachExercies=days.map((len)=>len.length)
 	
 	
-	const onView=(e)=>{
+	
+	
+	const EnableCardDetailView=(e,ind)=>{
+		console.log("EnableCardDetailView",e,ind)
+		//setShowDetailsCard(
+			setShowDetailsCard( days[ind].filter((accessTime)=> {if (e===accessTime.dayTime)
+				 {return (accessTime.time)}}).map((a)=>{
+					return a.time.map((accessEachNutrition,ind)=>{return (<CardDetails index={ind} nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition} key={accessEachNutrition.nutrition+Math.random()} />)})
+			}))
+			//{return <CardDetails  index={indexx}nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition}key={accessEachNutrition.nutrition+Math.random()}
+		// .map((accessTime,ind)=>{return accessTime
+		// 	.map((accessNutrition)=>{return accessNutrition.time
+		// 		.map((accessEachNutrition,indexx)=>{ return <CardDetails  index={indexx}
+		// 		nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition} 
+		// 		key={accessEachNutrition.nutrition+Math.random()}   />})})})
+		//console.log(showDetailsCard);
+		setView(false)
+		setDetailView(true)
+		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} nutrition={x.nutrition} id={x.sameNutrition} key={x.sameExercise+Math.random()} />}))
+	}
+	const EnableCardUIView=(e)=>{
 		
 		lastView.push(e);
-		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} nutrition={x.nutrition} id={x.sameNutrition} key={x.sameExercise+Math.random()} />}))
 		
+		setShowDayTimesCard(dayTimes[e].map((d,ind)=>{return <DayTimesCard time={d} length={dayTimeLength[e][ind]} EnableCardDetailView={EnableCardDetailView} value={e} key={d} />}))
 		setView(true);
-		
-		
-		
-
 	}
+	
+	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi dayTimes={dayTimes[ind]} dayTimeLength={dayTimeLength[ind]} date={dates[ind]}  dayId={ind} EnableCardUIView={EnableCardUIView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
 
 	const onDelete=(e)=>{
 		const varr=dates[e.target.value].replace("-","").replace("-","");
@@ -68,8 +86,12 @@ const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
 	// 	}
 	const onBack=()=>{
 		if(view===true) setView(false);
+		else if(detailView) {
+			setDetailView(false);
+			setView(true)
+		}
 		else
-		onExerciseSchedule()
+		onDietSchedule()
 	
 
 
@@ -90,16 +112,19 @@ const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
         </Head>
         
         <div className="container-fluid">
-		{/* <div>
+		<div>
 				<button type="button" onClick={onBack} className="btn btn-primary" style={{padding:"1%"}}>Back</button>
-			</div> */}
+			</div>
         <div className="row">
 			
 			
       
 	
-	{!view &&showCards}
+	{!view && !detailView &&showCards}
 	{/* {view && showDetailsCard} */}
+	{view && showDayTimesCard}
+	{detailView &&showDetailsCard}
+	
         </div>
         
 
