@@ -17,5 +17,12 @@ export class Reminder {
   }
     return data!.document.sort(byDate)
   } 
+  public async countRemaining(id: any)
+  {
+    //console.log("run")
+    const data = await nutritionScheduleModel.findById(id).select("document.sameDay");
+    //console.log(data);
+    return 30 - data!.document.length;
+  } 
 }
     
