@@ -5,15 +5,20 @@ import { currentUser } from "../middlewares/current-user";
 import { requireAuth } from "../middlewares/require-auth";
 import { validateRequest } from "../middlewares/validate-request";
 import { User } from "../models/user";
+import mongoose from 'mongoose';
 
 const router = express.Router();
 router.get(
   "/api-gateway/current-user/user/:id",
   currentUser,
   requireAuth,
+  [
   param("id")
-    .isLength({ min: 24, max: 24 })
-    .withMessage("Schedule id must be length 24"),
+    .not()
+    .isEmpty()
+    .custom((input:string)=>{mongoose.Types.ObjectId.isValid(input)})
+      .withMessage("User id must be length 24"),
+  ],
   validateRequest,
   async (req: Request, res: Response) => {
     const u = new User();

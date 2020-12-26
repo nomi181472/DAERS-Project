@@ -256,4 +256,39 @@ export class NutritionFactsSchedule {
     }
     return schedule;
   }
+  
+  public async deleteDay(id: string,day:string)
+  {
+    //console.log(day)
+    console.log("schedule",id);
+    const schedule = await nutritionScheduleModel.findById(id);
+    if (schedule) {
+      
+      for (var i = 0; i < schedule!.document.length; i++) {
+        
+        if (schedule.document[i].sameDay === day) {
+          const index = i
+          //console.log(index);
+          schedule.document.splice(index, 1);
+          await schedule.save();
+         // console.log(schedule);
+          return true;
+          
+        }
+        
+      }
+      return false
+      
+      
+    
+      
+     
+    }
+    else {
+      return false;
+    }
+   
+    
+  }
 }
+

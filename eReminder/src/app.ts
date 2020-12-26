@@ -10,6 +10,7 @@ import { UnknownRouteError } from "./errors/unknown-Route-error";
 import { currentUser } from "./middlewares/current-user";
 import { sortRouter } from "./routes/sort";
 import { countRouter } from "./routes/count";
+import { reScheduleRouter } from "./routes/reschedule";
 
 //const route=require("./routing-policy");
 //import axios from "axios";
@@ -30,6 +31,7 @@ app.use(cookieSession({ signed: false, httpOnly: false }));
 app.use(currentUser);
 app.use(sortRouter);
 app.use(countRouter);
+app.use(reScheduleRouter);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });

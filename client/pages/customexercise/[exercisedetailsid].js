@@ -87,7 +87,7 @@ const exerciseDetails=({ex})=>{
       
       }
       const cancelMe=()=>{
-        Router.push("/");
+        Router.push("/customexercise/list-to-select");
       }
       const handleDiscripton=(e)=>{
         if(e.target.value)
@@ -156,12 +156,12 @@ const exerciseDetails=({ex})=>{
  
 <tr>
   <td className="card-text"></td>
-  <td className="card-text text-right"><button onClick={onClick} className="btn btn-primary spaced">Confirm</button> </td>
+  <td className="card-text text-right"><button onClick={onClick} className="btn btn-primary form-control spaced" style={{width:"120px"}}><i className="fa fa-check"   aria-hidden="true" key="Confirm Exercise"></i> Confirm</button> </td>
   
 </tr>
 <tr>
   <td className="card-text"></td>
-  <td className="card-text text-right"> <button onClick={cancelMe}className="btn btn-primary spaced">Cancel</button></td>
+  <td className="card-text text-right"> <button onClick={cancelMe}className="btn btn-primary  form-control spaced " style={{padding:"1%",backgroundColor:"white",color:"#007bff" , width:"120px"}}><i className="fa fa-window-close"   style={{color:"#007bff"}} aria-hidden="true" key="Cancel Exercise"></i> Cancel</button></td>
   
 </tr>
 

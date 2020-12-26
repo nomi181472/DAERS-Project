@@ -2,10 +2,10 @@ import express, { Router, Request, Response } from 'express';
 import { BadRequestError } from '../errors/bad-request-error';
 import {Reminder} from "../models/Reminder";
 const route = Router();
-route.get("/api-gateway/current-user/exercise-schedule/reminder/:id", async (req: Request, res: Response) => {
+route.get("/api-gateway/current-user/exercise-schedule/reschedule/:id", async (req: Request, res: Response) => {
   const reminder = new Reminder();
   const {id}=req.params
-  const reminderE = await reminder.sortDates(id);
+  const reminderE = await reminder.reScheduleE(id);
   if (!reminder)
   {
     throw new BadRequestError("id not found")
@@ -16,4 +16,4 @@ route.get("/api-gateway/current-user/exercise-schedule/reminder/:id", async (req
 });
 
 
-export { route as sortRouter };
+export { route as reScheduleRouter };

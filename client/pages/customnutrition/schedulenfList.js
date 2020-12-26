@@ -40,16 +40,10 @@ console.log("document",document);
 				 {return (accessTime.time)}}).map((a)=>{
 					return a.time.map((accessEachNutrition,ind)=>{return (<CardDetails index={ind} nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition} key={accessEachNutrition.nutrition+Math.random()} />)})
 			}))
-			//{return <CardDetails  index={indexx}nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition}key={accessEachNutrition.nutrition+Math.random()}
-		// .map((accessTime,ind)=>{return accessTime
-		// 	.map((accessNutrition)=>{return accessNutrition.time
-		// 		.map((accessEachNutrition,indexx)=>{ return <CardDetails  index={indexx}
-		// 		nutrition={ accessEachNutrition.nutrition} id={accessEachNutrition.sameNutrition} 
-		// 		key={accessEachNutrition.nutrition+Math.random()}   />})})})
-		//console.log(showDetailsCard);
+			
 		setView(false)
 		setDetailView(true)
-		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} nutrition={x.nutrition} id={x.sameNutrition} key={x.sameExercise+Math.random()} />}))
+		
 	}
 	const EnableCardUIView=(e)=>{
 		
@@ -59,11 +53,11 @@ console.log("document",document);
 		setView(true);
 	}
 	
-	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi dayTimes={dayTimes[ind]} dayTimeLength={dayTimeLength[ind]} date={dates[ind]}  dayId={ind} EnableCardUIView={EnableCardUIView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
+	
 
 	const onDelete=(e)=>{
 		const varr=dates[e.target.value].replace("-","").replace("-","");
-	
+	console.log("ondelete",varr)
 		if(deleteDayN(varr))
 		{
 			showCards.splice(e.target.value,1)
@@ -71,19 +65,8 @@ console.log("document",document);
 			Router.push("/schedules/listcards");
 		}
 	}
-
-	// const onDeleteFromDay=(e)=>{
-	// 	const ind=parseInt(lastView[lastView.length-1])
-	// 	const varr=dates[parseInt(lastView[lastView.length-1])].replace("-","").replace("-","");
-	// 	if(deleteFromDayE(days[ind][e].sameExercise,varr)){
-			
-			
-	// 		days[ind].splice(e,1);
-	// 		//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
-	// 		Router.push("/schedules/listcards");
-	// 	}
-		
-	// 	}
+	const showCards=lengthOfEachExercies.map((arr,ind)=>{return <CardUi dayTimes={dayTimes[ind]} dayTimeLength={dayTimeLength[ind]} date={dates[ind]}  dayId={ind} EnableCardUIView={EnableCardUIView} onDelete={onDelete} len={arr} weekday={weekday} key={dates[ind]} />})
+	
 	const onBack=()=>{
 		if(view===true) setView(false);
 		else if(detailView) {
@@ -104,16 +87,11 @@ console.log("document",document);
 
 
     return (<div>
-        <Head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"async/>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"async/>
-        </Head>
+       
         
         <div className="container-fluid">
 		<div>
-				<button type="button" onClick={onBack} className="btn btn-primary" style={{padding:"1%"}}>Back</button>
+				<button type="button" onClick={onBack} className="btn btn-primary" style={{padding:"1%",backgroundColor:"white"}}><i className="fa fa-arrow-left fa-lg" style={{color:"blue"}}  aria-hidden="true" key="2back"></i></button>
 			</div>
         <div className="row">
 			

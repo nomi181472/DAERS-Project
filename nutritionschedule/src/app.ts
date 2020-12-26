@@ -14,6 +14,7 @@ import { updateObjectRouter } from "./routes/update-object";
 import { deleteRouter } from "./routes/delete";
 import { deleteObjectRouter } from "./routes/delete-object";
 import { getUserScheduleRouter } from "./routes/getuserschedule";
+import { deleteDay } from "./routes/delete-day";
 
 const app = express();
 const corsOptions = {
@@ -37,6 +38,7 @@ app.use(updateRouter);
 app.use(updateObjectRouter);
 app.use(deleteRouter);
 app.use(deleteObjectRouter);
+app.use(deleteDay);
 
 app.all("*", async () => {
   throw new UnknownRouteError();

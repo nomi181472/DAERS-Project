@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { BadRequestError } from "../errors/bad-request-error";
+import { ScheduleCreatedPublisher } from "../events/publishers/schedule-created-publisher";
 import { requireAuth } from "../middlewares/require-auth";
 import { validateRequest } from "../middlewares/validate-request";
 import { ExerciseSchedule } from "../models/Exercise-Schedule";
-import { exerciseScheduleModel } from "../models/exercise-schedule-repo/exercise-schedule-repo";
+import { natsWrapper } from "../nats-wrapper";
 const router = express.Router();
 router.post(
   "/api-gateway/current-user/exerciseschedule",
@@ -40,8 +41,12 @@ router.post(
       throw new BadRequestError("unAble to create schedule");
     }
     console.log("got request")
-
+    new ScheduleCreatedPublisher(natsWrapper.client).publish({
+      id: "123", title: "titlenpman",
+      price: 23, 
+    })
     res.status(201).send({ result });
+
   }
 );
 

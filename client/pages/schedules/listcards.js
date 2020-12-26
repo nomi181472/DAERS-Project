@@ -3,7 +3,6 @@ import Card from "./card";
 import Router from "next/router";
 import axios from "axios";
 import ScheduleeList from "../customexercise/scheduleeList";
-import ListToSelect from "../customexercise/list-to-select";
 import SchedulenfList from "../customnutrition/schedulenfList";
 import {useState} from "react";
 const list=({schedulenf,schedulee},currentUser) =>{
@@ -57,12 +56,11 @@ const onDietSchedule=()=>{
  
 }
 const deleteDayE=async(date)=>{
-   // console.log(date);
-  //  console.log();
-    let data;
+  
+    
     try{
     const res =await axios.delete(`http://localhost:3021/api-gateway/current-user/schedulee/day/${schedulee[0].id}/${date}`,{withCredentials:"include"})
-    //Router.reload()
+   
     return true;
     }
     catch(err){
@@ -72,12 +70,12 @@ const deleteDayE=async(date)=>{
 
 }
 const deleteDayN=async(date)=>{
-    console.log(date);
     
-    let data;
+    
+    
     try{
-    const res =await axios.delete(`http://localhost:3031/api-gateway/current-user/schedulee/day/${schedulee[0].id}/${date}`,{withCredentials:"include"})
-    //Router.reload()
+    const res =await axios.delete(`http://localhost:3031/api-gateway/current-user/schedulenf/day/${schedulenf[0].id}/${date}`,{withCredentials:"include"})
+   
     return true;
     }
     catch(err){
@@ -117,8 +115,8 @@ const deleteFromDayE=async(exid,data)=>{
 }
 
 
-list.getInitialProps=async(context,client,currentUser)=>{
-   // console.log("currentUser,",currentUser.errors.length)
+list.getInitialProps=async(context,)=>{
+   
    
     if(typeof window==="undefined")
     {

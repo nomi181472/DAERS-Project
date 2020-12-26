@@ -48,7 +48,7 @@ const onDelete=(e)=>{
 
                         <div className="footer">
 						{/* <button   value={id} className="btn btn-primary" style={{padding:"4%"}}>Edit</button> */}
-						<button  onClick={onDelete} value={index} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+						<button  onClick={onDelete} value={index} className="btn btn-danger form-control" style={{width:"120px"}}>Delete</button>
                         </div>
                     </div>
 					

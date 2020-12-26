@@ -12,7 +12,10 @@ stan.on("connect", () => {
     console.log("NATS connection closed!");
     process.exit();
   });
-  
+  process.on("SIGNINT", () => stan.close());
+
+process.on("SIGTERM", () => stan.close());
+
 new EScheduleCreatedListener(stan).listen()
   // const options = stan
   //   .subscriptionOptions()
@@ -36,9 +39,6 @@ new EScheduleCreatedListener(stan).listen()
 //   });
  });
 
-process.on("SIGNINT", () => stan.close());
-
-process.on("SIGTERM", () => stan.close());
 
 
 

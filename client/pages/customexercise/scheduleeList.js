@@ -1,7 +1,9 @@
-import Head from "next/head";
+
 import CardUi from "./CardUi";
+import Head from "next/head";
+import React from "react";
 import Router from "next/router";
-import axios from "axios"
+
 import CardDetails from "./CardDetails";
 import {useState} from "react";
 const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>{
@@ -29,6 +31,7 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 	const onView=(e)=>{
 		
 		lastView.push(e);
+		
 		setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
 		
 		setView(true);
@@ -56,7 +59,6 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 			
 			
 			days[ind].splice(e,1);
-			//setShowDetailsCard(days[e].map((x,index)=>{return <CardDetails index={index} onDeleteFromDay={onDeleteFromDay} exercise={x.exercise} id={x.sameExercise} key={x.sameExercise+Math.random()} />}))
 			Router.push("/schedules/listcards");
 		}
 		
@@ -66,10 +68,14 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 		else
 		onExerciseSchedule()
 	
-
+		
 
 	}
-
+	const handleKeyDown=()=>{
+		console.log("i was press");
+	}
+	
+	
 	
 
 	
@@ -77,16 +83,11 @@ const scheduleeList=({schedulee,onExerciseSchedule,deleteDayE,deleteFromDayE})=>
 
 
     return (<div>
-        <Head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"async/>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"async/>
-        </Head>
-        
+       
         <div className="container-fluid">
+			
 		<div>
-				<button type="button" onClick={onBack} className="btn btn-primary" style={{padding:"1%"}}>Back</button>
+				<button type="button"  onClick={onBack} className="btn btn-primary" style={{padding:"1%",backgroundColor:"white"}}><i className="fa fa-arrow-left fa-lg" style={{color:"blue"}}  aria-hidden="true" key="1back"></i></button>
 			</div>
         <div className="row">
 			

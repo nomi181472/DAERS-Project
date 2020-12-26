@@ -1,4 +1,5 @@
 
+import Head from "next/head"
 const CardUi=({date,weekday,len,onView,onDelete,dayId})=>{
 	
 	var t = new Date(date);
@@ -13,7 +14,9 @@ const CardUi=({date,weekday,len,onView,onDelete,dayId})=>{
 		onView(e.target.value)
 	}
     return(
+		
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12" style={{"marginTop":"20px","marginLeft":"1px"}}>
+			
         <div className="tile">
                     <div className="wrapper">
                         
@@ -48,8 +51,8 @@ const CardUi=({date,weekday,len,onView,onDelete,dayId})=>{
 
                         
                         <div className="footer">
-                        <button  onClick={onViewTo} value={dayId} className="btn btn-primary" style={{padding:"4%"}}>View</button>
-						<button  onClick={onDelete} value={dayId} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+                        <button  onClick={onViewTo} value={dayId} className="btn btn-primary form-control" style={{width:"120px"}}>List</button>
+						<button  onClick={onDelete} value={dayId} className="btn btn-danger form-control" style={{width:"120px"}}>Delete</button>
                      
                         </div>
                     </div>

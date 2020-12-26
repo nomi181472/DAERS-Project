@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "@react-icons/all-files": "^4.1.0",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "d3": "^6.3.1",
+    "font-awesome": "^4.7.0",
     "isomorphic-unfetch": "^3.1.0",
     "next": "^10.0.3",
     "nprogress": "^0.2.0",
