@@ -16,7 +16,6 @@ router.get(
   param("id")
     .not()
     .isEmpty()
-    .custom((input:string)=>{mongoose.Types.ObjectId.isValid(input)})
       .withMessage("User id must be length 24"),
   ],
   validateRequest,

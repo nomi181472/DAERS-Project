@@ -5,7 +5,7 @@ import axios from "axios"
 import CardDetails from "./CardDetails";
 import DayTimesCard from "./dayTimesCard";
 import {useState} from "react";
-const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
+const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN,id})=>{
 	
 	var weekday = new Array(7);
 	weekday[0] = "Sunday";
@@ -17,7 +17,7 @@ const scheduleeList=({schedulenf,onDietSchedule,deleteDayN,deleteFromDayN})=>{
 	weekday[6] = "Saturday";
 	
 	const {document}=schedulenf[0];
-console.log("document",document);
+
 	const [view,setView]=useState(false);
 	const [detailView,setDetailView]=useState(false);
 	const lastView=[];
@@ -34,7 +34,7 @@ console.log("document",document);
 	
 	
 	const EnableCardDetailView=(e,ind)=>{
-		console.log("EnableCardDetailView",e,ind)
+	
 		//setShowDetailsCard(
 			setShowDetailsCard( days[ind].filter((accessTime)=> {if (e===accessTime.dayTime)
 				 {return (accessTime.time)}}).map((a)=>{
@@ -45,11 +45,27 @@ console.log("document",document);
 		setDetailView(true)
 		
 	}
+	const dayTimeDelete=async(time,ind)=>{
+		
+		try{
+			console.log("dates",dates)
+			const date=dates[ind].replace("-","").replace("-","");
+			const response=await axios.delete(`http://localhost:3031/api-gateway/current-user/schedulenf/day/${id}/${date}/${time}`,{withCredentials:"include"});
+			console.log("date",response.status)
+			
+		}
+		catch(err){
+			console.log("day time deleting: ",err)
+		}
+		
+
+
+	}
 	const EnableCardUIView=(e)=>{
 		
 		lastView.push(e);
 		
-		setShowDayTimesCard(dayTimes[e].map((d,ind)=>{return <DayTimesCard time={d} length={dayTimeLength[e][ind]} EnableCardDetailView={EnableCardDetailView} value={e} key={d} />}))
+		setShowDayTimesCard(dayTimes[e].map((d,ind)=>{return <DayTimesCard time={d}  onDelete={dayTimeDelete}length={dayTimeLength[e][ind]} EnableCardDetailView={EnableCardDetailView} value={e} key={d} />}))
 		setView(true);
 	}
 	

@@ -108,7 +108,7 @@ const deleteFromDayE=async(exid,data)=>{
 
 {!viewExerciseSchedule&&!viewNutritionSchedule&&(<Card addMoreEx={addMoreEx} addMoreNF={addMoreNF} createSchedule={createSchedule} createScheduleNf={createScheduleNf} schedulenf={schedulenf} schedulee={schedulee} onExerciseSchedule={onExerciseSchedule} onDietSchedule={onDietSchedule} />)}
         {viewExerciseSchedule  &&(<ScheduleeList deleteDayE={deleteDayE}  deleteFromDayE={deleteFromDayE} onExerciseSchedule={onExerciseSchedule} schedulee={schedulee} />)  }
-        {viewNutritionSchedule  &&(<SchedulenfList deleteDayN={deleteDayN}   onDietSchedule={onDietSchedule} schedulenf={schedulenf} />)  }
+        {viewNutritionSchedule  &&(<SchedulenfList deleteDayN={deleteDayN}   onDietSchedule={onDietSchedule} schedulenf={schedulenf} id={schedulenf[0].id} />)  }
         </div>
 
     )

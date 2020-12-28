@@ -2,12 +2,18 @@ import {
   exerciseScheduleModel,
   ExerciseScheduleAttrs,
 } from "./exercise-schedule-repo/exercise-schedule-repo";
+import { UserSchema } from "./exercise-schedule-repo/user-repo"
+import mongoose from "mongoose"
 export class ExerciseSchedule {
   constructor() {}
   public async addSchedule(exerciseScheduleAttrs: ExerciseScheduleAttrs) {
     try {
       let result = await exerciseScheduleModel.build(exerciseScheduleAttrs);
+      let user = await UserSchema.modelName
+      console.log(user,exerciseScheduleAttrs.userId)
       await result.save();
+
+      
       return result;
     } catch (err) {
       console.log("addschedule Class", err);
@@ -55,9 +61,9 @@ export class ExerciseSchedule {
         return "required-authorization";
       }
       const dayR = body.document[0].sameDay;
-
+     
       const { document } = schedule;
-
+     
       let index: number = this.findSameDay(document, dayR);
       // for (var i = 0; i < document.length; i++) {
       //   document[i].sameDay;

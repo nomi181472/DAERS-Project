@@ -12,7 +12,9 @@ const CardUi=({date,EnableCardDetailView,onDelete,dayId,time,length,value})=>{
 	
 	const when=tTime<today?"Ended At:":"Starts At:";
 	var d = new Date(date);
-  
+	const onDeleteDayTime=(e)=>{
+		onDelete(e.target.value,value)
+	}
 	
 	const onViewTo=(e)=>{
 		
@@ -50,7 +52,7 @@ const CardUi=({date,EnableCardDetailView,onDelete,dayId,time,length,value})=>{
   
                         <div className="footer">
                         <button  onClick={onViewTo} value={time} className="btn btn-primary" style={{padding:"4%"}}>View</button>
-						<button  onClick={onDelete} value={time} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
+						<button  onClick={onDeleteDayTime} value={time} className="btn btn-danger" style={{padding:"4%"}}>Delete</button>
                      
                         </div>
                     </div>

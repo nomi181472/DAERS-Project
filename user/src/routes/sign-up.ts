@@ -27,7 +27,9 @@ router.post(
       lastName,
       height,
       bmi,
+      services
     } = req.body;
+    console.log("service",services);
     const existingUser = await UserSchema.findOne({ email });
     if (existingUser) {
       throw new BadRequestError("email already in used");
@@ -42,6 +44,7 @@ router.post(
       lastName,
       height,
       bmi,
+      services
     });
     await createdUser.save();
 

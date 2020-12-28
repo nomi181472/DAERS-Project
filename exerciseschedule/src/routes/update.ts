@@ -42,11 +42,13 @@ router.put(
   async (req: Request, res: Response) => {
     //const schedule = await exerciseScheduleModel.findById(req.params.id);
     const sch = new ExerciseSchedule();
+ 
     const schedule = await sch.updatechedule(
       req.params.id,
       req.currentUser!.id,
       req.body
     );
+    
     //console.log(schedule);
     if (schedule === "id-not-found") {
       throw new UnknownRouteError("scheduleid not found");

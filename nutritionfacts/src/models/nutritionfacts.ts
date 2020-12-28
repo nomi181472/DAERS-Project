@@ -63,13 +63,23 @@ export class NutritionFacts {
       return null;
     }
   }
-  public async listNutritionFacts() {
+  public async listNutritionFacts(query: any) {
+    let nt:any;
     try {
-      const nt = await nutritionFactModel.find({});
+      
+      const { nutritionCategory } = query
+      if (typeof nutritionCategory === "undefined") { 
+        nt = await nutritionFactModel.find({});
+      } 
+     
+      else {
+        nt = await nutritionFactModel.find({ nutritionCategory: nutritionCategory }).exec();
+      }
+
       if (!nt) {
         return "empty";
       }
-
+      //console.log(nt);
       return nt;
     } catch (err) {
       console.log("ErrorPosition:listNutritionFacts", err);

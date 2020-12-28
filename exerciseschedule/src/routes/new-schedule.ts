@@ -41,10 +41,10 @@ router.post(
       throw new BadRequestError("unAble to create schedule");
     }
     console.log("got request")
-    new ScheduleCreatedPublisher(natsWrapper.client).publish({
-      id: "123", title: "titlenpman",
-      price: 23, 
-    })
+    // new ScheduleCreatedPublisher(natsWrapper.client).publish({
+    //   id: "123", title: "titlenpman",
+    //   price: 23, 
+    // })
     res.status(201).send({ result });
 
   }

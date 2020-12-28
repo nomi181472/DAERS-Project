@@ -17,6 +17,8 @@ const exerciseDetails=({ex})=>{
            const [url,setUrl]=useState("");
            const [method,setMethod]=useState("");
            const [scheduleId,setScheduleId]=useState("");
+           const [showReps,setShowReps]=useState([])
+         
          
           const exercise={
             exerciseName:ex.exerciseName,
@@ -95,10 +97,34 @@ const exerciseDetails=({ex})=>{
         else
         setDiscription(" ");
       };
+     const handleReps=(e)=>{
+     
+const val=parseInt(e.target.value)
+const ind=parseInt(e.target.getAttribute("name"))
+const arr=reps.map((value, index) => {
+ return ((index === ind ? val : value))
+ })
+ setReps(arr)
+ console.log(arr)
 
+ 
+
+      }
       const handleSets=(e)=>{
-         setSets(e.target.value)
-        setReps([10,10,10])
+         setSets(parseInt(e.target.value))
+         if(parseInt(e.target.value)&&parseInt(e.target.value)<=6)
+         {let arr = Array.apply(null,Array(parseInt(e.target.value))).map(() => {return 10});
+         //console.log("arr",arr)
+         setReps(Array.apply(null,Array(parseInt(e.target.value))).map(() => {return 10}))
+         console.log(arr,reps)
+         setShowReps(arr.map((value,ind)=>{return  <input   className="form-control" name={ind} onChange={handleReps} placeholder={value} key={ind } />}))
+     
+        }
+        else{
+          
+          setReps([10,10,10])
+        }
+        
       }
 
     return (
@@ -148,6 +174,10 @@ const exerciseDetails=({ex})=>{
   <td className="card-text">Enter Sets</td>
   <td className="card-text"> <input onChange={handleSets} placeholder="your Sets here.."/></td>
 </tr>
+{showReps.length!==0&&(<tr>
+  <td className="card-text">Enter Reps</td>
+  <td><div className="form-group"><p   className="input-group">{showReps}</p></div></td>
+</tr>)}
 <tr>
   <td className="card-text">Your Discription</td>
 <td className="card-text"><textarea onChange={handleDiscripton} className="form-control rounded-0" placeholder="Any note ......." rows="3"></textarea>

@@ -31,7 +31,7 @@ if(nf )
 	const [calories,setCalories]=useState(nf.calories);
 	const [grams,setGrams]=useState(100);
 	const	[View,setView]=useState(false);
-    const [dayTime,setDayTime]=useState("morning");
+    const [dayTime,setDayTime]=useState("BreakFast");
    
     const showPhotos=nf.photos.mainPhoto?nf.photos.mainPhoto:"http://via.placeholder.com/640x360";
     const showName=nf.nutritionName?nf.nutritionName:"tempName";
@@ -232,14 +232,33 @@ useEffect(() => {
 						  <div className="stats">
   
  
-  <div >
+  <div>
 	  <strong style={{fontSize:"110%"}}>Date</strong> 
   </div>
  
   <div>
 	  <strong style={{fontSize:"110%"}}><input value={sameDay} className="form-control" type="date"onChange={(e)=>{setSameDay(e.target.value)}} /></strong> 
   </div>
+  
+  
+</div>
 
+<div className="stats">
+  
+ 
+  <div>
+	  <strong style={{fontSize:"110%"}}>DayTime</strong> 
+  </div>
+ 
+
+  <div>
+		<select className="form-control" value={dayTime} onChange={(e)=>{setDayTime(e.target.value)}}>
+		<option value="Breakfast">Breakfast</option>
+		<option value="Lunch">Lunch</option>
+		<option value="Dinner">Dinner</option>
+		</select>
+  </div>
+  
 </div>
 			 
 		<div className="d-flex justify-content-center" >				  

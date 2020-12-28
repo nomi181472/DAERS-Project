@@ -22,8 +22,7 @@ const userSchema = new mongoose.Schema(
     age: {
       type: Number,
       required: true,
-      min: 18,
-      max: 65,
+      
     },
     bmi: {
       type: Number,
@@ -43,6 +42,12 @@ const userSchema = new mongoose.Schema(
     userInformation: {
       ques: [String],
       ans: [String],
+    },
+    services: {
+      customExercise: Boolean,
+      customDiet: Boolean,
+      recommendedExercise: Boolean,
+      RecommendedDiet:Boolean
     },
     createdAt: {
       type: Date,
@@ -86,6 +91,12 @@ interface UserAttrs {
     ques:String[],
     ans: String[],
   };
+  services?: {
+    customExercise: Boolean,
+    customDiet: Boolean,
+    recommendedExercise: Boolean,
+    RecommendedDiet: Boolean
+  };
   createdAt?: Date;
   updatedAt?: Date;
   photos?: {
@@ -116,6 +127,12 @@ interface UserDocument extends mongoose.Document {
   userInformation?: {
     ques:String[],
     ans: String[],
+  };
+  services?: {
+    customExercise: Boolean,
+    customDiet: Boolean,
+    recommendedExercise: Boolean,
+    RecommendedDiet: Boolean
   };
   createdAt?: Date;
   updatedAt?: Date;

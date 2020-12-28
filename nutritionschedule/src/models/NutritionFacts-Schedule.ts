@@ -260,7 +260,7 @@ export class NutritionFactsSchedule {
   public async deleteDay(id: string,day:string)
   {
     //console.log(day)
-    console.log("schedule",id);
+ 
     const schedule = await nutritionScheduleModel.findById(id);
     if (schedule) {
       
@@ -290,5 +290,64 @@ export class NutritionFactsSchedule {
    
     
   }
+
+  public async deleteDayTime(id: string,day:string,time:string)
+  {
+    //console.log(day)
+    
+    const schedule = await nutritionScheduleModel.findById(id);
+    console.log(schedule)
+    if (schedule) {
+      let index: number = 10000;
+      for (var i = 0; i < schedule!.document.length; i++) {
+        if (schedule.document[i].sameDay === day) {
+          index = i
+          console.log("index", index);
+          break;
+        }
+      }
+      console.log(schedule.document[index].day)
+      
+      if (index !== 10000) {
+        
+        for (var i = 0; i < schedule.document[index].day.length; i++) {
+         
+              if (schedule.document[index].day[i].dayTime===time) {
+                
+                schedule.document[index].day.splice(i, 1);
+                if (!schedule.document[index].day.length)
+                {
+                  console.log("inside shedule",schedule.document[index].day);
+                  schedule.document.splice(index, 1);
+
+                  }
+                await schedule.save();
+                console.log("after saving")
+                return true;
+        }
+         
+      }
+    }
+       else { 
+         return false
+      }
+
+
+      return false
+      
+      
+    
+      
+     
+    }
+    else {
+      console.log("id")
+      return "shcedule-id-not-found";
+    }
+   
+    
+  }
+  
+  
 }
 

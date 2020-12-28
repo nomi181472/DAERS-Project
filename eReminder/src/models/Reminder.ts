@@ -47,15 +47,23 @@ export class Reminder {
 
     if (dates === "No-Date") {
       if (await this.countRemaining(id)) {
-        const a = new Date()
-        a.setDate(a.getDate() + 1)
-        console.log(a)
-        const data = await exerciseScheduleModel.findById(id)
-        if (data) {
-          const originalArr = ["Iron", "Super", "Ant", "Aqua"];
-          originalArr.forEach((name, index) => originalArr[index] = `${name}man`);
+    
+        const data = await exerciseScheduleModel.findById(id);
 
-          console.log("Overridden: %s", originalArr);
+        if (data) {
+          data.document.sort(this.byDate);
+          
+          
+          data.document.forEach((value,ind) => {
+            const todayDate = new Date()
+            todayDate.setDate(todayDate.getDate() + ind + 1)
+            value.sameDay = todayDate.toISOString().substring(0, 10);
+            return value
+          });
+          console.log(data.document);
+          await data.save();
+         
+          
         }
       }
       else {

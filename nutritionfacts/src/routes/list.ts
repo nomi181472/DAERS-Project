@@ -9,7 +9,8 @@ router.get(
   requireAuth,
   async (req: Request, res: Response) => {
     const nt = new NutritionFacts();
-    const nutrition = await nt.listNutritionFacts();
+    const { query } = req;
+    const nutrition = await nt.listNutritionFacts(query);
 
     if (!nutrition || nutrition === "empty") {
       throw new BadRequestError("error while listing");
