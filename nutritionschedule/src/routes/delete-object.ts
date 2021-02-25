@@ -8,40 +8,25 @@ import { validateRequest } from "../middlewares/validate-request";
 import { body, param } from "express-validator";
 const router = express.Router();
 router.delete(
-  "/api-gateway/current-user/schedulenf/object/:id/:nutritionId",
+  "/api-gateway/current-user/schedulenf/object/:id/:nutritionId/:date/:time",
   requireAuth,
   [
     param("id")
       .isLength({ min: 24, max: 24 })
       .withMessage("Schedule id must be length 24"),
 
-    body("document").not().isEmpty().withMessage("document is required"),
-    body("document.*.sameDay").not().isEmpty().withMessage("Day is required"),
-    body("document.*.day.*.time.*.nutrition")
-      .not()
-      .isEmpty()
-      .withMessage("NutritionData is Required"),
-    body("document.*.day.*.dayTime")
-      .not()
-      .isEmpty()
-      .withMessage("DayTime is required"),
-    body("document.*.day.*.time")
-      .not()
-      .isEmpty()
-      .withMessage("time is required"),
-    body("document.*.day.*.time.*.sameNutrition")
-      .not()
-      .isEmpty()
-      .withMessage("nutritionId is required"),
+    
   ],
   validateRequest,
   async (req: Request, res: Response) => {
     const sch = new NutritionFactsSchedule();
+    const date = req.params.date.slice(0, 4) + "-" + req.params.date.slice(4, 6) + "-" + req.params.date.slice(6);
     const schedule = await sch.deleteScheduleObject(
-      req.params.id,
-      req.body,
+     req.params.id,
       req.currentUser!.id,
-      req.params.nutritionId
+      req.params.nutritionId,
+      date,
+      req.params.time
     );
 
     if (schedule === "not-found") {
@@ -51,11 +36,11 @@ router.delete(
     if (schedule === "required-authorization") {
       throw new UnAuthorizedError("required authorization");
     }
-    if (schedule === "not-same-day") {
-      throw new UnknownRouteError("not a same day");
+    if (schedule === "Date-Not-Found") {
+      throw new UnknownRouteError("Date-Not-Found");
     }
-    if (schedule === "dayTime-NotMatch") {
-      throw new BadRequestError("dayTime mismatch");
+    if (schedule === "DayTime-Not-Found") {
+      throw new BadRequestError("DayTime-Not-Found");
     }
     if (schedule === "nutritionId-notFound") {
       throw new BadRequestError("nutritionId Not Found");

@@ -189,58 +189,80 @@ export class NutritionFactsSchedule {
 
   public async deleteScheduleObject(
     scheduleId: String,
-    body: any,
     currentUserId: String,
-    nutritionId: String
+    nutritionId: String,
+    date: string,
+    time:string
   ) {
     try {
       const schedule = await nutritionScheduleModel.findById(scheduleId);
-
-      const dayR = body.document[0].sameDay;
-
-      const document = schedule!.document;
-
       if (!schedule) {
         return "not-found";
       }
-
+      // console.log( scheduleId,
+      //   currentUserId,
+      //   nutritionId,
+      //   date,
+      //   time,"paramters")
       if (currentUserId !== schedule!.userId) {
         return "required-authorization";
       }
-      let index: number = this.findSameDay(document, dayR);
-      if (index === -1) {
-        return "not-same-day";
-      }
-      let indexB: number = -1;
-      let index2: number = -1;
-      const len = document[index].day.length;
-      if (index >= 0) {
-        const dayTime = body.document[0].day[0].dayTime;
-        indexB = this.findSameTime(document[index].day, dayTime);
-
-        if (indexB >= 0) {
-          index2 = this.findSameNutritionFact(
-            document,
-            index,
-            indexB,
-            nutritionId
-          );
-
-          if (index2 >= 0) {
-            schedule.document[index].day[indexB].time.splice(index2, 1);
-            if (!schedule.document[index].day[indexB].time.length) {
-              schedule.document[index].day.splice(indexB, 1);
-              if (!schedule.document[index].day.length) {
-                schedule.document.splice(index, 1);
-              }
-            }
-          } else {
-            return "nutritionId-notFound";
-          }
-        } else {
-          return "dayTime-NotMatch";
+      let index: number=-1;
+      for (var i = 0; i < schedule!.document.length; i++) {
+        
+        if (schedule.document[i].sameDay === date) {
+          index = i;
+          break;
         }
+        
       }
+      if (index === -1) {
+        return "Date-Not-Found"
+      }
+     // console.log("first nesting:", schedule.document[index]) 
+      
+      let index2: number=-1;
+      for (var i = 0; i < schedule!.document[index].day.length; i++) {
+        
+        if (schedule.document[index].day[i].dayTime === time) {
+          index2 = i;
+          break;
+        }
+        
+      }
+      if (index2 === -1) {
+        return "DayTime-Not-Found"
+      }
+      //console.log("second nesting:", schedule.document[index].day[index2]) 
+      let index3: number=-1;
+      for (var i = 0; i < schedule!.document[index].day[index2].time.length; i++) {
+        
+        if (schedule.document[index].day[index2].time[i].sameNutrition === nutritionId) {
+          index3 = i;
+          //console.log("before:", schedule.document[index].day[index2].time[index3]) 
+      schedule.document[index].day[index2].time.splice(i, 1);
+     
+       
+       if (!schedule.document[index].day[index2].time.length) {
+       //console.log("i was run index2")
+        schedule.document[index].day.splice(index2, 1);
+        //console.log( schedule.document[index])
+           }
+         if (!schedule.document[index].day.length) {
+          //console.log("i was run index")
+            schedule.document.splice(index, 1);
+    
+           }
+          break;
+        }
+        return "nutritionId-notFound"
+        
+      }
+      //console.log("after:", schedule.document[index])
+      
+
+
+     
 
       await schedule.save();
       return true;
