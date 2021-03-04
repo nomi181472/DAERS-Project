@@ -1,5 +1,6 @@
 import { UserSchema, UserAttrs } from "./user-repo/user-repo";
-import  mongoosePaginate  from "mongoose-paginate-v2";
+
+
 
 export class User {
   constructor() { }
@@ -12,6 +13,45 @@ export class User {
     } catch (err) {
       console.log("ErrorPosition:addUser", err);
       return null;
+    }
+  }
+  
+  public async addUserInformation(object:any,userId:string) {
+    try {
+      const userDocument =await  UserSchema.findById(userId);
+      if (userDocument && userDocument.userInformation!==undefined)  {
+        const userObjectKeys = Object.keys(userDocument.userInformation);
+        
+        
+       
+    const  sameKeys=(key:any,ind:any) =>{
+    
+      if (userDocument.userInformation !== undefined)
+      {
+      
+      
+          userDocument.userInformation[key] = object[key];
+        
+        
+      }
+        
+
+        }
+        Object.keys(object).forEach(sameKeys) 
+       
+        userDocument.markModified("userInformation")
+        await userDocument.save();
+
+      }
+    else
+      {
+     
+
+      }
+
+    }
+    catch (err) {
+      console.log(err);
     }
   }
   public async updateUser(_user: UserAttrs, userId: String) {

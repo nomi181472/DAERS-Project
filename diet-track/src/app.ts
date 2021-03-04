@@ -7,6 +7,7 @@ import { errorHandler } from "./middlewares/error-handler";
 import { UnknownRouteError } from "./errors/unknown-Route-error";
 import { addDiet } from "./routes/addDiet";
 import { currentUser } from "./middlewares/current-user";
+import { listDiet } from "./routes/list";
 
 const app = express();
 const corsOptions = {
@@ -23,6 +24,7 @@ app.set("trust proxy", true);
 app.use(cookieSession({ signed: false, httpOnly: false }));
 app.use(currentUser);
 app.use(addDiet)
+app.use(listDiet);
 app.all("*", async () => {
   throw new UnknownRouteError();
 });

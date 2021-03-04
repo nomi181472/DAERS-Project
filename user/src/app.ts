@@ -15,6 +15,7 @@ import { deleteUserRouter } from "./routes/delete";
 import { listUserRouter } from "./routes/list";
 import { detailUserRouter } from "./routes/detail";
 import { updateUserRouter } from "./routes/update";
+import { addUserInformation } from "./routes/add-user-information";
 //const route=require("./routing-policy");
 //import axios from "axios";
 
@@ -36,6 +37,7 @@ app.use(signOutRouter);
 app.use(signUpRouter);
 app.use(currentUserRouter);
 //app.use(addUserRouter);
+app.use(addUserInformation);
 app.use(deleteUserRouter);
 app.use(listUserRouter);
 app.use(detailUserRouter);

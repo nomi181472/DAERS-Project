@@ -40,8 +40,8 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     userInformation: {
-      ques: [String],
-      ans: [String],
+      targetGoal: Number,
+      gene:String
     },
     services: {
       customExercise: Boolean,
@@ -88,9 +88,9 @@ interface UserAttrs {
   weight: number;
   height: number;
   userInformation?: {
-    ques:String[],
-    ans: String[],
-  };
+    [targetGoal: string]: string,
+    
+  }
   services?: {
     customExercise: Boolean,
     customDiet: Boolean,
@@ -125,9 +125,8 @@ interface UserDocument extends mongoose.Document {
   weight: number;
   height: number;
   userInformation?: {
-    ques:String[],
-    ans: String[],
-  };
+    [targetGoal: string]:number
+  }
   services?: {
     customExercise: Boolean,
     customDiet: Boolean,

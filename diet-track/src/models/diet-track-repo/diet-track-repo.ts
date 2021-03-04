@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const dietTrackSchema = new mongoose.Schema(
   {
-    _id: {
+    userId: {
       type: String,
       required: true,
     },
@@ -19,7 +19,7 @@ const dietTrackSchema = new mongoose.Schema(
     updateAt: Date,
   },
   {
-     _id: false ,
+     
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
@@ -30,7 +30,7 @@ const dietTrackSchema = new mongoose.Schema(
   }
 );
 interface DietTrackAttrs {
-  _id: string;
+  userId: string;
   dietScheduleId: string,
   dayDate: string[],
   totalCaloriesIntake: number[],
@@ -44,7 +44,7 @@ interface DietTrackAttrs {
 }
 interface DietTrackDocument extends mongoose.Document {
  
-  _id: string;
+  userId: string;
   dietScheduleId: string,
   dayDate: string[],
   totalCaloriesIntake: number[],

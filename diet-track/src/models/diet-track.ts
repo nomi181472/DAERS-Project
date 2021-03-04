@@ -7,14 +7,12 @@ export class DietTrack{
   
   }
   public async addNutritions(document: DietTrackParser) {
-    const isCurrentUser = await dietTrackModel.findById( document.userId );
-   
-  
+    const isCurrentUser = await dietTrackModel.findOne( {userId:document.userId} );
     console.log(isCurrentUser)
     if (!isCurrentUser) {
       
       const isAdd = await dietTrackModel.build({
-        _id: document.userId,
+        userId: document.userId,
         dietScheduleId: document.dietScheduleId,
         dayDate: [document.dayDate],
         totalProteinIntake: [document.totalProteinIntake],
@@ -23,22 +21,19 @@ export class DietTrack{
         totalCaloriesIntake: [document.totalCaloriesIntake],
         currentWeight: [document.currentWeight]
       });
-      await isAdd.save();
-  
-    
+      await isAdd.save();  
     }
     else {
-     
+     const index = isCurrentUser.dayDate.findIndex((e, d) => e == document.dayDate )
       
-        const index = isCurrentUser.dayDate.map((e, d) => { if (e === document.dayDate) return d })[0];
-      console.log(index)
-        if (index !== undefined) {
+      console.log(index);
+        if (index !== -1) {
       
-          isCurrentUser.totalProteinIntake[index] += 5;
-          isCurrentUser.totalFatsIntake[index] += 5;
-          isCurrentUser.totalCarbohydratesIntake[index] += 5;
-          isCurrentUser.totalCaloriesIntake[index] += 5;
-          isCurrentUser.currentWeight[index] += 5;
+          isCurrentUser.totalProteinIntake[index] += document.totalProteinIntake;
+          isCurrentUser.totalFatsIntake[index] += document.totalFatsIntake;
+          isCurrentUser.totalCarbohydratesIntake[index] +=document.totalCarbohydratesIntake;
+          isCurrentUser.totalCaloriesIntake[index] +=document.totalCaloriesIntake;
+          isCurrentUser.currentWeight[index] += document.currentWeight;
           isCurrentUser.markModified("totalProteinIntake");
           isCurrentUser.markModified("totalFatsIntake");
           isCurrentUser.markModified("totalCarbohydratesIntake");
@@ -48,25 +43,40 @@ export class DietTrack{
          
       }
         else {
-          console.log("else")
+          //console.log("else")
           dietTrackModel.findOneAndUpdate(
-            { _id: document.userId },
+            { userId: document.userId },
             {
               $push: {
+                dayDate:document.dayDate,
                 totalProteinIntake: document.totalProteinIntake, totalFatsIntake: document.totalFatsIntake,
                 totalCarbohydratesIntake: document.totalCarbohydratesIntake, totalCaloriesIntake: document.totalCaloriesIntake,
                 currentWeight:document.currentWeight
               }
             },
+            {new: true, useFindAndModify: false}
           ).exec();
       }
-        
-      
+        console.log(this.TotalEnergyExpanditure())
+      return;
     }
     
   }
-  public getTrackId() {
-    return;
+  public async getAllData(userId:string) {
+    const isCurrentUser = await dietTrackModel.find({ userId:userId});
+    console.log("data",isCurrentUser)
+    
+    return isCurrentUser;
+  }
+  public BMR(weight:number,height:number,age:number) {
+    return ((10 * weight) + (6.25 * height) - (5 * age) + 5);
+  }
+  public PAL() {
+    const pal: number = 1.76;
+    return pal;
+  }
+  public TotalEnergyExpanditure() {
+    return (this.BMR(79, 176, 30) * this.PAL());
   }
   
 }
