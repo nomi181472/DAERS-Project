@@ -8,12 +8,13 @@ const exerciseTrackSchema = new mongoose.Schema(
     
     weightCapacity:[{
       exerciseName: String,
+      reps:[Number],
       weight: [Number]
     }],
     totalRunning: [{
-      date: [String],
-      running:[Number]
-      
+      date: String,
+      running:Number,
+      caloriesBurned: Number
     }],
 
   
@@ -33,34 +34,41 @@ const exerciseTrackSchema = new mongoose.Schema(
 );
 interface ExerciseTrackAttrs {
   userId: string;
-  weightCapacity:{
+  weightCapacity?: {
+    
     exerciseName: string,
+    reps:number[],
     weight: number[]
   }[],
-  totalRunning: {
-    date: string[],
-    running:number[]
+  totalRunning?: {
+    date: string,
+    running:number,
+    caloriesBurned: number
     
   }[],
   createAt?: Date;
   updateAt?: Date;
 
 }
+
 interface ExerciseTrackDocument extends mongoose.Document {
  
   userId: string;
-  dayDate: string[],
-  totalCaloriesIntake: number[],
-  totalProteinIntake: number[],
-  totalCarbohydratesIntake: number[],
-  totalFatsIntake: number[],
-  currentWeight: number[],
   
+  weightCapacity:{
+    exerciseName: string,
+    weight: number[]
+    reps:number[],
+  }[],
+  totalRunning: {
+    date: string,
+    running:number,
+    caloriesBurned: number
+    
+  }[],
   createAt?: Date;
   updateAt?: Date;
-  
- 
- 
+
 }
 
 interface ExerciseTrackModel

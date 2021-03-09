@@ -12,17 +12,18 @@ const start = async () => {
 //     process.on("SIGNINT", () => natsWrapper.client.close());
   
 //   process.on("SIGTERM", () => natsWrapper.client.close());
-    await mongoose.connect("mongodb://localhost:27017/diettrack", {
+    await mongoose.connect("mongodb://localhost:27017/exercisetrack", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("connected to diettrack mongodb");
+    console.log("connected to exercisetrack mongodb");
   } catch (err) {
     console.log(err);
   }
-  app.listen(3033, () => {
-    console.log("diettrack Listening on port 3033");
+  app.listen(3023, () => {
+    console.log("exercisetrack Listening on port 3023");
   });
+  
 };
 start();

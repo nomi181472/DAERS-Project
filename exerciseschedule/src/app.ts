@@ -18,7 +18,7 @@ import { deleteDay } from "./routes/delete-day";
 
 const app = express();
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin:  ["http://localhost:3000","http://localhost:19006"],
   optionsSuccessStatus: 200,
   credentials: true,
   exposedHeaders: "*",
